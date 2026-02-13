@@ -14,8 +14,8 @@ import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
 import { SaveFormDto } from './dto/save-form.dto';
 
-@ApiTags('persons')
-@Controller('api/persons')
+@ApiTags('personas')
+@Controller('api/personas')
 export class PersonsController {
   constructor(private readonly personsService: PersonsService) {}
 
@@ -42,20 +42,20 @@ export class PersonsController {
     return this.personsService.update(id, dto);
   }
 
-  @Get(':personId/forms/:slug')
+  @Get(':personaId/cuestionarios/:slug')
   getForm(
-    @Param('personId', ParseIntPipe) personId: number,
+    @Param('personaId', ParseIntPipe) personaId: number,
     @Param('slug') slug: string,
   ) {
-    return this.personsService.getForm(personId, slug);
+    return this.personsService.getForm(personaId, slug);
   }
 
-  @Put(':personId/forms/:slug')
+  @Put(':personaId/cuestionarios/:slug')
   saveForm(
-    @Param('personId', ParseIntPipe) personId: number,
+    @Param('personaId', ParseIntPipe) personaId: number,
     @Param('slug') slug: string,
     @Body() dto: SaveFormDto,
   ) {
-    return this.personsService.saveForm(personId, slug, dto);
+    return this.personsService.saveForm(personaId, slug, dto);
   }
 }

@@ -10,41 +10,40 @@ import {
 } from 'typeorm';
 import { Person } from '../person/person.entity';
 
-/** Una entrega de un cuestionario por persona (triaje, legal, etc.) */
 @Entity('envios_cuestionario')
-@Unique(['personId', 'formSlug'])
+@Unique(['personaId', 'cuestionarioSlug'])
 export class FormSubmission {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ name: 'persona_id' })
-  personId: number;
+  personaId: number;
 
-  @ManyToOne(() => Person, (p) => p.formSubmissions, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Person, (p) => p.enviosCuestionario, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'persona_id' })
-  person: Person;
+  persona: Person;
 
   @Column({ name: 'cuestionario_slug', type: 'nvarchar', length: 50 })
-  formSlug: string;
+  cuestionarioSlug: string;
 
   @Column({ name: 'version_cuestionario', type: 'int', default: 1 })
-  formVersion: number;
+  versionCuestionario: number;
 
-  /** Respuestas: array de { fieldId, type, value?, selections?, observationsValue?, extraValue? } */
+  /** Respuestas: array de { campoId, tipo, valor?, selecciones?, valorObservaciones?, valorExtra? } */
   @Column({ name: 'respuestas_json', type: 'nvarchar', length: 'MAX', nullable: true })
-  answersJson: string | null;
+  respuestasJson: string | null;
 
   @Column({ name: 'enviado_en', type: 'datetime2', precision: 3, nullable: true })
-  submittedAt: Date | null;
+  enviadoEn: Date | null;
 
   @Column({ type: 'bit', default: true })
   activo: boolean;
 
   @CreateDateColumn({ name: 'fecha_creacion', type: 'datetime2', precision: 3 })
-  createdAt: Date;
+  fechaCreacion: Date;
 
   @UpdateDateColumn({ name: 'fecha_modificacion', type: 'datetime2', precision: 3 })
-  updatedAt: Date;
+  fechaModificacion: Date;
 
   @Column({ name: 'usuario_creacion', type: 'nvarchar', length: 100, nullable: true })
   usuarioCreacion: string | null;

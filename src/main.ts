@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({ origin: true }); // Ajusta en producción a tu origen del front
+  app.enableCors({ origin: true }); // Ajustar en producción al origen del front
 
   const config = new DocumentBuilder()
     .setTitle('Human Mobility API')

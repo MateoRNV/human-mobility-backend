@@ -1,25 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-class FormAnswerDto {
+class RespuestaCuestionarioDto {
   @ApiProperty()
-  fieldId: string;
+  campoId: string;
   @ApiProperty()
-  type: string;
+  tipo: string;
   @ApiProperty({ required: false })
-  value?: unknown;
+  valor?: unknown;
   @ApiProperty({ required: false })
-  selections?: Array<{ row: string; column: string }>;
+  selecciones?: Array<{ fila: string; columna: string }>;
   @ApiProperty({ required: false })
-  observationsValue?: string;
+  valorObservaciones?: string;
   @ApiProperty({ required: false })
-  observations?: string;
+  observaciones?: string;
   @ApiProperty({ required: false })
-  extraValue?: unknown;
+  valorExtra?: unknown;
 }
 
 export class SaveFormDto {
   @ApiProperty({ required: false })
-  form_version?: number;
-  @ApiProperty({ type: [FormAnswerDto] })
-  answers: FormAnswerDto[];
+  version_cuestionario?: number;
+  @ApiProperty({ type: [RespuestaCuestionarioDto] })
+  respuestas: RespuestaCuestionarioDto[];
 }

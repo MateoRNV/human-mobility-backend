@@ -21,175 +21,175 @@ export class PersonsService {
     private readonly formSubmissionRepo: Repository<FormSubmission>,
   ) {}
 
-  async findAll(): Promise<PersonListDto[]> {
-    const persons = await this.personRepo.find({
+  async findAll(): Promise<ListaPersonasDto[]> {
+    const personas = await this.personRepo.find({
       where: { activo: true },
-      relations: ['formSubmissions'],
-      order: { createdAt: 'DESC' },
+      relations: ['enviosCuestionario'],
+      order: { fechaCreacion: 'DESC' },
     });
-    return persons.map((p) => this.toListDto(p));
+    return personas.map((p) => this.toListDto(p));
   }
 
-  async findOne(id: number): Promise<PersonDetailDto> {
-    const person = await this.personRepo.findOne({
+  async findOne(id: number): Promise<DetallePersonaDto> {
+    const persona = await this.personRepo.findOne({
       where: { id, activo: true },
-      relations: ['formSubmissions'],
+      relations: ['enviosCuestionario'],
     });
-    if (!person) throw new NotFoundException(`Person ${id} not found`);
-    return this.toDetailDto(person);
+    if (!persona) throw new NotFoundException(`Persona ${id} no encontrada`);
+    return this.toDetailDto(persona);
   }
 
-  async create(dto: CreatePersonDto): Promise<PersonDetailDto> {
-    const person = this.personRepo.create({
-      name: dto.name,
-      document: dto.document ?? null,
-      derivedServices: null,
+  async create(dto: CreatePersonDto): Promise<DetallePersonaDto> {
+    const persona = this.personRepo.create({
+      nombre: dto.nombre,
+      documento: dto.documento ?? null,
+      serviciosDerivados: null,
       activo: true,
     });
-    const saved = await this.personRepo.save(person);
-    return this.findOne(saved.id);
+    const guardada = await this.personRepo.save(persona);
+    return this.findOne(guardada.id);
   }
 
-  async update(id: number, dto: UpdatePersonDto): Promise<PersonDetailDto> {
-    const person = await this.personRepo.findOne({
+  async update(id: number, dto: UpdatePersonDto): Promise<DetallePersonaDto> {
+    const persona = await this.personRepo.findOne({
       where: { id, activo: true },
     });
-    if (!person) throw new NotFoundException(`Person ${id} not found`);
-    if (dto.name !== undefined) person.name = dto.name;
-    if (dto.document !== undefined) person.document = dto.document;
-    const saved = await this.personRepo.save(person);
-    return this.findOne(saved.id);
+    if (!persona) throw new NotFoundException(`Persona ${id} no encontrada`);
+    if (dto.nombre !== undefined) persona.nombre = dto.nombre;
+    if (dto.documento !== undefined) persona.documento = dto.documento;
+    const guardada = await this.personRepo.save(persona);
+    return this.findOne(guardada.id);
   }
 
-  async getForm(personId: number, slug: string): Promise<FormResponseDto> {
-    const person = await this.personRepo.findOne({
-      where: { id: personId, activo: true },
+  async getForm(personaId: number, slug: string): Promise<RespuestaCuestionarioDto> {
+    const persona = await this.personRepo.findOne({
+      where: { id: personaId, activo: true },
     });
-    if (!person) throw new NotFoundException(`Person ${personId} not found`);
-    const submission = await this.formSubmissionRepo.findOne({
-      where: { personId, formSlug: slug, activo: true },
+    if (!persona) throw new NotFoundException(`Persona ${personaId} no encontrada`);
+    const envio = await this.formSubmissionRepo.findOne({
+      where: { personaId, cuestionarioSlug: slug, activo: true },
     });
-    if (!submission)
+    if (!envio)
       return {
-        personId,
-        formSlug: slug,
-        formVersion: 1,
-        submittedAt: null,
-        answers: [],
+        personaId,
+        cuestionarioSlug: slug,
+        versionCuestionario: 1,
+        enviadoEn: null,
+        respuestas: [],
       };
-    const answers = submission.answersJson
-      ? (JSON.parse(submission.answersJson) as SaveFormDto['answers'])
+    const respuestas = envio.respuestasJson
+      ? (JSON.parse(envio.respuestasJson) as SaveFormDto['respuestas'])
       : [];
     return {
-      personId,
-      formSlug: slug,
-      formVersion: submission.formVersion,
-      submittedAt: submission.submittedAt?.toISOString() ?? null,
-      answers,
+      personaId,
+      cuestionarioSlug: slug,
+      versionCuestionario: envio.versionCuestionario,
+      enviadoEn: envio.enviadoEn?.toISOString() ?? null,
+      respuestas,
     };
   }
 
   async saveForm(
-    personId: number,
+    personaId: number,
     slug: string,
     dto: SaveFormDto,
-  ): Promise<FormResponseDto> {
-    const person = await this.personRepo.findOne({
-      where: { id: personId, activo: true },
+  ): Promise<RespuestaCuestionarioDto> {
+    const persona = await this.personRepo.findOne({
+      where: { id: personaId, activo: true },
     });
-    if (!person) throw new NotFoundException(`Person ${personId} not found`);
+    if (!persona) throw new NotFoundException(`Persona ${personaId} no encontrada`);
 
-    let submission = await this.formSubmissionRepo.findOne({
-      where: { personId, formSlug: slug, activo: true },
+    let envio = await this.formSubmissionRepo.findOne({
+      where: { personaId, cuestionarioSlug: slug, activo: true },
     });
-    const now = new Date();
-    const answers = dto.answers ?? [];
+    const ahora = new Date();
+    const respuestas = dto.respuestas ?? [];
 
-    if (!submission) {
-      submission = this.formSubmissionRepo.create({
-        personId,
-        formSlug: slug,
-        formVersion: dto.form_version ?? 1,
-        answersJson: JSON.stringify(answers),
-        submittedAt: now,
+    if (!envio) {
+      envio = this.formSubmissionRepo.create({
+        personaId,
+        cuestionarioSlug: slug,
+        versionCuestionario: dto.version_cuestionario ?? 1,
+        respuestasJson: JSON.stringify(respuestas),
+        enviadoEn: ahora,
         activo: true,
       });
     } else {
-      submission.formVersion = dto.form_version ?? submission.formVersion;
-      submission.answersJson = JSON.stringify(answers);
-      submission.submittedAt = now;
+      envio.versionCuestionario = dto.version_cuestionario ?? envio.versionCuestionario;
+      envio.respuestasJson = JSON.stringify(respuestas);
+      envio.enviadoEn = ahora;
     }
-    await this.formSubmissionRepo.save(submission);
+    await this.formSubmissionRepo.save(envio);
 
     if (slug === FORM_SLUG_TRIAJE) {
-      const derived = this.deriveServicesFromTriageAnswers(answers);
-      person.derivedServices =
-        derived.length > 0 ? JSON.stringify(derived) : null;
-      await this.personRepo.save(person);
+      const derivados = this.deriveServicesFromTriageAnswers(respuestas);
+      persona.serviciosDerivados =
+        derivados.length > 0 ? JSON.stringify(derivados) : null;
+      await this.personRepo.save(persona);
     }
 
-    return this.getForm(personId, slug);
+    return this.getForm(personaId, slug);
   }
 
   private deriveServicesFromTriageAnswers(
-    answers: SaveFormDto['answers'],
+    respuestas: SaveFormDto['respuestas'],
   ): string[] {
-    const entry = answers.find((a) => a.fieldId === TRIAJE_DERIVATION_FIELD_ID);
-    if (!entry || !Array.isArray(entry.value)) return [];
-    const values = entry.value as string[];
-    return values.filter((v) => DERIVATION_TO_FORM_SLUG[v] != null);
+    const entrada = respuestas.find((r) => r.campoId === TRIAJE_DERIVATION_FIELD_ID);
+    if (!entrada || !Array.isArray(entrada.valor)) return [];
+    const valores = entrada.valor as string[];
+    return valores.filter((v) => DERIVATION_TO_FORM_SLUG[v] != null);
   }
 
-  private parseDerivedServices(person: Person): string[] {
-    if (!person.derivedServices) return [];
+  private parseDerivedServices(persona: Person): string[] {
+    if (!persona.serviciosDerivados) return [];
     try {
-      return JSON.parse(person.derivedServices) as string[];
+      return JSON.parse(persona.serviciosDerivados) as string[];
     } catch {
       return [];
     }
   }
 
-  private toListDto(person: Person): PersonListDto {
-    const forms: Record<string, { submittedAt: string | null; version: number }> = {};
-    for (const fs of person.formSubmissions ?? []) {
-      if (!fs.activo) continue;
-      forms[fs.formSlug] = {
-        submittedAt: fs.submittedAt?.toISOString() ?? null,
-        version: fs.formVersion,
+  private toListDto(persona: Person): ListaPersonasDto {
+    const cuestionarios: Record<string, { enviadoEn: string | null; version: number }> = {};
+    for (const ec of persona.enviosCuestionario ?? []) {
+      if (!ec.activo) continue;
+      cuestionarios[ec.cuestionarioSlug] = {
+        enviadoEn: ec.enviadoEn?.toISOString() ?? null,
+        version: ec.versionCuestionario,
       };
     }
     return {
-      id: person.id,
-      name: person.name,
-      document: person.document ?? '',
-      derivedServices: this.parseDerivedServices(person),
-      forms,
+      id: persona.id,
+      nombre: persona.nombre,
+      documento: persona.documento ?? '',
+      serviciosDerivados: this.parseDerivedServices(persona),
+      cuestionarios,
     };
   }
 
-  private toDetailDto(person: Person): PersonDetailDto {
-    const list = this.toListDto(person);
-    return { ...list };
+  private toDetailDto(persona: Person): DetallePersonaDto {
+    const lista = this.toListDto(persona);
+    return { ...lista };
   }
 }
 
-export interface PersonListDto {
+export interface ListaPersonasDto {
   id: number;
-  name: string;
-  document: string;
-  derivedServices: string[];
-  forms: Record<
+  nombre: string;
+  documento: string;
+  serviciosDerivados: string[];
+  cuestionarios: Record<
     string,
-    { submittedAt: string | null; version: number }
+    { enviadoEn: string | null; version: number }
   >;
 }
 
-export type PersonDetailDto = PersonListDto;
+export type DetallePersonaDto = ListaPersonasDto;
 
-export interface FormResponseDto {
-  personId: number;
-  formSlug: string;
-  formVersion: number;
-  submittedAt: string | null;
-  answers: SaveFormDto['answers'];
+export interface RespuestaCuestionarioDto {
+  personaId: number;
+  cuestionarioSlug: string;
+  versionCuestionario: number;
+  enviadoEn: string | null;
+  respuestas: SaveFormDto['respuestas'];
 }

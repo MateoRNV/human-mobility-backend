@@ -21,14 +21,14 @@ export class FormDefinition {
   version: number;
 
   @Column({ name: 'nombre', type: 'nvarchar', length: 200, nullable: true })
-  name: string | null;
+  nombre: string | null;
 
   @Column({ name: 'descripcion', type: 'nvarchar', length: 500, nullable: true })
-  description: string | null;
+  descripcion: string | null;
 
   /** Esquema/configuración del formulario (campos, opciones, validaciones) en JSON */
   @Column({ name: 'configuracion_json', type: 'nvarchar', length: 'MAX', nullable: true })
-  configJson: string | null;
+  configuracionJson: string | null;
 
   @Column({ type: 'bit', default: true })
   activo: boolean;

@@ -28,7 +28,7 @@ import { FormsModule } from './forms/forms.module';
       },
       connectionTimeout: 30000,
       entities: [Person, FormSubmission, FormDefinition],
-      synchronize: process.env.NODE_ENV !== 'production',
+      synchronize: true,//process.env.NODE_ENV !== 'production', //solo para pruebas a true 
       retryAttempts: 3,
     }),
     PersonsModule,

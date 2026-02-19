@@ -1,6 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { Person } from './person.entity';
 import { FormSubmission } from '../forms/entities/form-submission.entity';
 import { CreatePersonDto } from './dto/create-person.dto';
@@ -19,7 +23,7 @@ export class PersonsService {
     private readonly personRepo: Repository<Person>,
     @InjectRepository(FormSubmission)
     private readonly formSubmissionRepo: Repository<FormSubmission>,
-  ) { }
+  ) {}
 
   async findAll(): Promise<ListaPersonasDto[]> {
     const personas = await this.personRepo.find({
@@ -40,13 +44,53 @@ export class PersonsService {
   }
 
   async create(dto: CreatePersonDto): Promise<DetallePersonaDto> {
+    if (dto.documento) {
+      const existing = await this.personRepo.findOne({
+        where: { documento: dto.documento, activo: true },
+      });
+      if (existing)
+        throw new ConflictException(
+          `Ya existe una persona con el documento ${dto.documento}`,
+        );
+    } else if (dto.nombre) {
+      const existing = await this.personRepo.findOne({
+        where: { nombre: dto.nombre, documento: IsNull(), activo: true },
+      });
+      if (existing)
+        throw new ConflictException(
+          `Ya existe una persona con el nombre ${dto.nombre} sin documento`,
+        );
+    }
+
+    let numeroCaso: string | null = null;
+    let parentId: number | null = null;
+
+    if (dto.parentId) {
+      const parent = await this.personRepo.findOne({
+        where: { id: dto.parentId, activo: true },
+      });
+      if (!parent)
+        throw new NotFoundException(`Caso ${dto.parentId} no encontrado`);
+      numeroCaso = parent.numeroCaso;
+      parentId = parent.id;
+    }
+
     const persona = this.personRepo.create({
       nombre: dto.nombre,
       documento: dto.documento ?? null,
-      cuestionarios: ['triaje'],
       activo: true,
+      numeroCaso,
+      parentId,
     });
+
     const guardada = await this.personRepo.save(persona);
+
+    if (!parentId) {
+      const anio = new Date().getFullYear();
+      guardada.numeroCaso = `${anio}${guardada.id}`;
+      await this.personRepo.save(guardada);
+    }
+
     return this.findOne(guardada.id);
   }
 
@@ -57,15 +101,38 @@ export class PersonsService {
     if (!persona) throw new NotFoundException(`Persona ${id} no encontrada`);
     if (dto.nombre !== undefined) persona.nombre = dto.nombre;
     if (dto.documento !== undefined) persona.documento = dto.documento;
+
+    if (persona.documento) {
+      const existing = await this.personRepo.findOne({
+        where: { documento: persona.documento, activo: true },
+      });
+      if (existing && existing.id !== persona.id)
+        throw new ConflictException(
+          `Ya existe otra persona con el documento ${persona.documento}`,
+        );
+    } else {
+      const existing = await this.personRepo.findOne({
+        where: { nombre: persona.nombre, documento: IsNull(), activo: true },
+      });
+      if (existing && existing.id !== persona.id)
+        throw new ConflictException(
+          `Ya existe otra persona con el nombre ${persona.nombre} sin documento`,
+        );
+    }
+
     const guardada = await this.personRepo.save(persona);
     return this.findOne(guardada.id);
   }
 
-  async getForm(personaId: number, slug: string): Promise<RespuestaCuestionarioDto> {
+  async getForm(
+    personaId: number,
+    slug: string,
+  ): Promise<RespuestaCuestionarioDto> {
     const persona = await this.personRepo.findOne({
       where: { id: personaId, activo: true },
     });
-    if (!persona) throw new NotFoundException(`Persona ${personaId} no encontrada`);
+    if (!persona)
+      throw new NotFoundException(`Persona ${personaId} no encontrada`);
     const envio = await this.formSubmissionRepo.findOne({
       where: { personaId, cuestionarioSlug: slug, activo: true },
     });
@@ -97,7 +164,8 @@ export class PersonsService {
     const persona = await this.personRepo.findOne({
       where: { id: personaId, activo: true },
     });
-    if (!persona) throw new NotFoundException(`Persona ${personaId} no encontrada`);
+    if (!persona)
+      throw new NotFoundException(`Persona ${personaId} no encontrada`);
 
     let envio = await this.formSubmissionRepo.findOne({
       where: { personaId, cuestionarioSlug: slug, activo: true },
@@ -115,19 +183,12 @@ export class PersonsService {
         activo: true,
       });
     } else {
-      envio.versionCuestionario = dto.version_cuestionario ?? envio.versionCuestionario;
+      envio.versionCuestionario =
+        dto.version_cuestionario ?? envio.versionCuestionario;
       envio.respuestasJson = JSON.stringify(respuestas);
       envio.enviadoEn = ahora;
     }
     await this.formSubmissionRepo.save(envio);
-
-    if (slug === FORM_SLUG_TRIAJE) {
-      const derivados = this.deriveServicesFromTriageAnswers(respuestas);
-      const actuales = persona.cuestionarios ?? [];
-      const nuevos = Array.from(new Set([...actuales, 'triaje', ...derivados]));
-      persona.cuestionarios = nuevos;
-      await this.personRepo.save(persona);
-    }
 
     return this.getForm(personaId, slug);
   }
@@ -135,28 +196,27 @@ export class PersonsService {
   private deriveServicesFromTriageAnswers(
     respuestas: SaveFormDto['respuestas'],
   ): string[] {
-    const entrada = respuestas.find((r) => r.campoId === TRIAJE_DERIVATION_FIELD_ID);
+    const entrada = respuestas.find(
+      (r) => r.campoId === TRIAJE_DERIVATION_FIELD_ID,
+    );
     if (!entrada || !Array.isArray(entrada.valor)) return [];
     const valores = entrada.valor as string[];
-    return valores.filter((v) => DERIVATION_TO_FORM_SLUG[v] != null);
+    return valores
+      .map((v) => DERIVATION_TO_FORM_SLUG[v])
+      .filter((v) => v != null);
   }
 
-
   private toListDto(persona: Person): ListaPersonasDto {
-    const cuestionarios: Record<string, { enviadoEn: string | null; version: number }> = {};
-    for (const ec of persona.enviosCuestionario ?? []) {
-      if (!ec.activo) continue;
-      cuestionarios[ec.cuestionarioSlug] = {
-        enviadoEn: ec.enviadoEn?.toISOString() ?? null,
-        version: ec.versionCuestionario,
-      };
-    }
+    const cuestionarios: Record<
+      string,
+      { enviadoEn: string | null; version: number }
+    > = {};
     return {
       id: persona.id,
       nombre: persona.nombre,
       documento: persona.documento ?? '',
-      cuestionarios: persona.cuestionarios ?? [],
-      //cuestionarios,
+      numeroCaso: persona.numeroCaso ?? '',
+      parentId: persona.parentId,
     };
   }
 
@@ -170,11 +230,8 @@ export interface ListaPersonasDto {
   id: number;
   nombre: string;
   documento: string;
-  cuestionarios: string[];
-  /* cuestionarios: Record<
-     string,
-     { enviadoEn: string | null; version: number }
-   >;*/
+  numeroCaso: string;
+  parentId?: number | null;
 }
 
 export type DetallePersonaDto = ListaPersonasDto;

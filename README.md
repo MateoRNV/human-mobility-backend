@@ -56,4 +56,4 @@ El servidor queda en `http://localhost:3001` (o el `PORT` que definas en `.env`)
 - `GET /api/persons/:personId/forms/:slug` — Obtener respuestas de un cuestionario (ej. `slug=triaje`).
 - `PUT /api/persons/:personId/forms/:slug` — Guardar/actualizar respuestas. Si `slug=triaje`, se actualiza `derivedServices` según el campo de derivación (fld-60).
 
-Slugs de formularios: `triaje`, `social-work`, `legal`, `psicological`, `medios-vida`.
+Slugs de formularios: `triaje`, `social`, `legal`, `psicologico`, `medios-vida`.

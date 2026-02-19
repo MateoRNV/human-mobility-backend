@@ -1,8 +1,8 @@
 {
-  "version": 1,
+  "version": 2,
   "slug": "triaje",
   "name": "Triaje",
-  "title": "Ficha Nro. 0001",
+  "title": "Triaje",
   "sections": [
     {
       "id": "sec-1",
@@ -14,7 +14,6 @@
           "order": 1,
           "title": "Fecha de registro",
           "type": "date",
-          "required": true,
           "placeHolder": "Selecciona una fecha"
         },
         {
@@ -31,8 +30,7 @@
               "value": "otros",
               "label": "Otros: (Consultas de salud, educación, alojamiento, alimentación, acceso a servicios)"
             }
-          ],
-          "required": true
+          ]
         },
         {
           "id": "fld-3",
@@ -42,8 +40,7 @@
           "options": [
             { "value": "primera_vez", "label": "Primera vez" },
             { "value": "recurrente", "label": "Recurrente" }
-          ],
-          "required": true
+          ]
         },
         {
           "id": "fld-4",
@@ -62,8 +59,7 @@
           "id": "fld-5",
           "order": 5,
           "title": "Nombres y apellidos del usuario/a representante",
-          "type": "text",
-          "required": true
+          "type": "text"
         },
         {
           "id": "fld-6",
@@ -574,8 +570,8 @@
           "title": "Derivación interna",
           "type": "multi-select",
           "options": [
-            { "value": "trabajo_social", "label": "Trabajo social" },
-            { "value": "psicologia", "label": "Psicología" },
+            { "value": "social", "label": "Trabajo social" },
+            { "value": "psicologico", "label": "Psicología" },
             { "value": "legal", "label": "Legal" },
             {
               "value": "promocion_medios_vida",

@@ -1,52 +1,78 @@
 import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    OneToMany,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+  ManyToOne,
+  JoinColumn,
+  Index,
 } from 'typeorm';
 import { FormSubmission } from '../forms/entities/form-submission.entity';
 
+@Index('UQ_PERSONA_DOCUMENTO', ['documento'], {
+  unique: true,
+  where: 'documento IS NOT NULL',
+})
+@Index('UQ_PERSONA_NOMBRE_SIN_DOCUMENTO', ['nombre', 'documento'], {
+  unique: true,
+  where: 'documento IS NULL',
+})
 @Entity('personas')
 export class Person {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ name: 'nombre', type: 'nvarchar', length: 255 })
-    nombre: string;
+  @Column({ name: 'nombre', type: 'nvarchar', length: 255 })
+  nombre: string;
 
-    @Column({ name: 'documento', type: 'nvarchar', length: 100, nullable: true })
-    documento: string | null;
+  @Column({ name: 'documento', type: 'nvarchar', length: 100, nullable: true })
+  documento: string | null;
 
-    /** Cuestionarios asignados (triaje, derivados, etc.) */
-    @Column({
-        name: 'cuestionarios',
-        type: 'nvarchar',
-        length: 'MAX',
-        nullable: true,
-        transformer: {
-            to: (value: string[]) => JSON.stringify(value),
-            from: (value: string) => JSON.parse(value || '[]'),
-        },
-    })
-    cuestionarios: string[];
+  @Index()
+  @Column({ name: 'numero_caso', type: 'nvarchar', length: 50, nullable: true })
+  numeroCaso: string | null;
 
-    @Column({ type: 'bit', default: true })
-    activo: boolean;
+  @Column({ name: 'parent_id', type: 'int', nullable: true })
+  parentId: number | null;
 
-    @CreateDateColumn({ name: 'fecha_creacion', type: 'datetime2', precision: 3 })
-    fechaCreacion: Date;
+  @ManyToOne(() => Person, (person) => person.children)
+  @JoinColumn({ name: 'parent_id' })
+  parent: Person | null;
 
-    @UpdateDateColumn({ name: 'fecha_modificacion', type: 'datetime2', precision: 3 })
-    fechaModificacion: Date;
+  @OneToMany(() => Person, (person) => person.parent)
+  children: Person[];
 
-    @Column({ name: 'usuario_creacion', type: 'nvarchar', length: 100, nullable: true })
-    usuarioCreacion: string | null;
+  @Column({ type: 'bit', default: true })
+  activo: boolean;
 
-    @Column({ name: 'usuario_modificacion', type: 'nvarchar', length: 100, nullable: true })
-    usuarioModificacion: string | null;
+  @CreateDateColumn({ name: 'fecha_creacion', type: 'datetime2', precision: 3 })
+  fechaCreacion: Date;
 
-    @OneToMany(() => FormSubmission, (fs) => fs.persona)
-    enviosCuestionario: FormSubmission[];
+  @UpdateDateColumn({
+    name: 'fecha_modificacion',
+    type: 'datetime2',
+    precision: 3,
+  })
+  fechaModificacion: Date;
+
+  @Column({
+    name: 'usuario_creacion',
+    type: 'nvarchar',
+    length: 100,
+    nullable: true,
+  })
+  usuarioCreacion: string | null;
+
+  @Column({
+    name: 'usuario_modificacion',
+    type: 'nvarchar',
+    length: 100,
+    nullable: true,
+  })
+  usuarioModificacion: string | null;
+
+  @OneToMany(() => FormSubmission, (fs) => fs.persona)
+  enviosCuestionario: FormSubmission[];
 }

@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "slug": "psicologico",
+  "name": "Psicología",
+  "title": "Ficha de atencion en psicología",
+  "sections": [
+    {
+      "id": "sec-1",
+      "order": 1,
+      "title": "Atención en Psicología",
+      "fields": [
+        {
+          "id": "fld-1",
+          "order": 1,
+          "title": "Tipo de atención requerida",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "intervencion_en_crisis",
+              "label": "INTERVENCION EN CRISIS"
+            },
+            {
+              "value": "asesoria_salud_mental",
+              "label": "ASESORIA EN SALUD MENTAL"
+            },
+            {
+              "value": "acompanamiento_terapeutico",
+              "label": "Acompañamiento terapéutico"
+            }
+          ]
+        },
+        {
+          "id": "fld-2",
+          "order": 2,
+          "title": "Motivo de la consulta",
+          "type": "long-text"
+        },
+        {
+          "id": "fld-3",
+          "order": 3,
+          "title": "VALORACION ESCALA DE BIENESTAR",
+          "type": "select",
+          "options": [
+            {
+              "value": "bajo",
+              "label": "Bajo bienestar mental: Puntuaciones de 40 o menos"
+            },
+            {
+              "value": "promedio",
+              "label": "Bienestar mental promedio: Puntuaciones de 41 a 59"
+            },
+            {
+              "value": "alto",
+              "label": "Alto bienestar mental:Puntuaciones de 59 o más"
+            }
+          ]
+        },
+        {
+          "id": "fld-4",
+          "order": 4,
+          "title": "BREVE DESCRIPCION DE LA SITUACION PERSONAL Y FAMILIAR",
+          "type": "long-text"
+        },
+        {
+          "id": "fld-5",
+          "order": 5,
+          "title": "IMPRESION DIAGNÓSTICA: (En caso de existir algún indicio de posible alteración psicológica)",
+          "type": "long-text"
+        },
+        {
+          "id": "fld-6",
+          "order": 6,
+          "title": "CONCLUSIONES Y RECOMENDACIONES",
+          "type": "long-text"
+        },
+        {
+          "id": "fld-7",
+          "order": 7,
+          "title": "SEGUIMIENTOS",
+          "type": "table",
+          "allowAddRows": true,
+          "canDeleteRows": true,
+          "columns": [
+            { "id": "fecha", "header": "Fecha" },
+            { "id": "hora", "header": "Hora" },
+            { "id": "notas_seguimiento", "header": "Notas de seguimiento " }
+          ]
+        }
+      ]
+    }
+  ]
+}

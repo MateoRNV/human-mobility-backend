@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Person } from '../person/person.entity';
-import { FormSubmission } from '../form-submission/form-submission.entity';
+import { Person } from './person.entity';
+import { FormSubmission } from '../forms/entities/form-submission.entity';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
-import { SaveFormDto } from './dto/save-form.dto';
+import { SaveFormDto } from '../forms/dto/save-form.dto';
 import {
   TRIAJE_DERIVATION_FIELD_ID,
   FORM_SLUG_TRIAJE,
@@ -19,7 +19,7 @@ export class PersonsService {
     private readonly personRepo: Repository<Person>,
     @InjectRepository(FormSubmission)
     private readonly formSubmissionRepo: Repository<FormSubmission>,
-  ) {}
+  ) { }
 
   async findAll(): Promise<ListaPersonasDto[]> {
     const personas = await this.personRepo.find({
@@ -43,7 +43,7 @@ export class PersonsService {
     const persona = this.personRepo.create({
       nombre: dto.nombre,
       documento: dto.documento ?? null,
-      serviciosDerivados: null,
+      cuestionarios: ['triaje'],
       activo: true,
     });
     const guardada = await this.personRepo.save(persona);
@@ -123,8 +123,9 @@ export class PersonsService {
 
     if (slug === FORM_SLUG_TRIAJE) {
       const derivados = this.deriveServicesFromTriageAnswers(respuestas);
-      persona.serviciosDerivados =
-        derivados.length > 0 ? JSON.stringify(derivados) : null;
+      const actuales = persona.cuestionarios ?? [];
+      const nuevos = Array.from(new Set([...actuales, 'triaje', ...derivados]));
+      persona.cuestionarios = nuevos;
       await this.personRepo.save(persona);
     }
 
@@ -140,14 +141,6 @@ export class PersonsService {
     return valores.filter((v) => DERIVATION_TO_FORM_SLUG[v] != null);
   }
 
-  private parseDerivedServices(persona: Person): string[] {
-    if (!persona.serviciosDerivados) return [];
-    try {
-      return JSON.parse(persona.serviciosDerivados) as string[];
-    } catch {
-      return [];
-    }
-  }
 
   private toListDto(persona: Person): ListaPersonasDto {
     const cuestionarios: Record<string, { enviadoEn: string | null; version: number }> = {};
@@ -162,8 +155,8 @@ export class PersonsService {
       id: persona.id,
       nombre: persona.nombre,
       documento: persona.documento ?? '',
-      serviciosDerivados: this.parseDerivedServices(persona),
-      cuestionarios,
+      cuestionarios: persona.cuestionarios ?? [],
+      //cuestionarios,
     };
   }
 
@@ -177,11 +170,11 @@ export interface ListaPersonasDto {
   id: number;
   nombre: string;
   documento: string;
-  serviciosDerivados: string[];
-  cuestionarios: Record<
-    string,
-    { enviadoEn: string | null; version: number }
-  >;
+  cuestionarios: string[];
+  /* cuestionarios: Record<
+     string,
+     { enviadoEn: string | null; version: number }
+   >;*/
 }
 
 export type DetallePersonaDto = ListaPersonasDto;

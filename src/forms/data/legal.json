@@ -1,0 +1,340 @@
+{
+  "version": 1,
+  "slug": "legal",
+  "name": "Legal",
+  "title": "Ficha Nro. 0004",
+  "sections": [
+    {
+      "id": "sec-1",
+      "order": 1,
+      "title": "Tipo de asistencia",
+      "fields": [
+        {
+          "id": "fld-1",
+          "order": 1,
+          "title": "Atencion Migratoria",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "recursos_impugnatorios",
+              "label": "Recursos impugnatorios"
+            },
+            {
+              "value": "solici{tud_movimientos_migratorios",
+              "label": "Solicitud de movimientos migratorios"
+            },
+            {
+              "value": "acceso_regularizacion_migratoria",
+              "label": "Acceso a regularizacion migratoria"
+            },
+            {
+              "label": "Solicitud de antecedentes penales",
+              "value": "solicitud_antecedentes_penales"
+            }
+          ]
+        },
+        {
+          "id": "fld-2",
+          "order": 2,
+          "title": "PROTECCIÓN INTERNACIONAL",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "refugio_apatridia",
+              "label": "DETERMINACIÓN DE LA CONDICIÓN DE REFUGIO O APÁTRIDIA"
+            },
+            {
+              "value": "refugio_extemporanea",
+              "label": "DETERMINACIÓN DE LA CONDICIÓN DE REFUGIO O APÁTRIDA EXTEMPORÁNEA"
+            },
+            {
+              "value": "renovacion_visa_solicitante",
+              "label": "RENOVACION VISA SOLICTANTE"
+            },
+            {
+              "value": "autorizacion_ausentarse_pais",
+              "label": "AUTORIZACIÓN PARA AUSENTARSE FUERA DEL PAÍS PARA REFUGIADOS"
+            },
+            {
+              "value": "renovacion_visa_proteccion",
+              "label": "RENOVACIÓN VISA DE PROTECCIÓN INTERNACIONAL"
+            },
+            {
+              "value": "recurso_apelacion",
+              "label": "RECURSO ADMINISTRATIVO DE APELACIÓN"
+            },
+            {
+              "value": "recurso_revision",
+              "label": "RECURSO EXTRAORDINARIO DE REVISIÓN"
+            },
+            {
+              "value": "inclusion_familiar",
+              "label": "SOLICITUD DE INCLUSIÓN FAMILIAR"
+            },
+            {
+              "value": "reunificacion_familiar",
+              "label": "SOLICITUD DE REUNIFICACIÓN FAMILIAR"
+            },
+            {
+              "value": "renuncia_proteccion",
+              "label": "RENUNCIA O DESISTIMIENTO AL PROCESO DE PROTECCIÓN INTERNACIONAL"
+            }
+          ]
+        },
+        {
+          "id": "fld-3",
+          "order": 3,
+          "title": "Acceso a documentación",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "solicitud_antecedentes_penales",
+              "label": "SOLICITUD DE ANTECEDENTES PENALES"
+            },
+            {
+              "value": "solicitud_cita_identidad_col",
+              "label": "SOLICITUD CITA PARA ACCESO A TARJETA DE IDENTIDAD, PASAPORTE COLOMBIANO Y CÉDULA (CONTRASEÑA)"
+            },
+            {
+              "value": "solicitud_cita_cedula_ecu",
+              "label": "SOLICITUD CITA PARA CEDULA ECUATORIANA POR PRIMERA VEZ"
+            },
+            {
+              "value": "renovacion_cedula_ecu",
+              "label": "RENOVACION DE CEDULA ECUATORIANA"
+            },
+            {
+              "value": "solicitud_apostilla_col",
+              "label": "SOLICITUD DE APOSTILLA DE ANTECEDENTES COLOMBIANOS"
+            },
+            {
+              "value": "orientacion_registro_consular",
+              "label": "ORIENTACIÓN DEL REGISTRO CONSULAR EN OTRO PAÍS"
+            },
+            {
+              "value": "solicitud_acta_matrimonio_ecu",
+              "label": "SOLICITUD ACTA DE MATRIMONIO- REGISTRO CIVIL ECU"
+            },
+            {
+              "value": "solicitud_acta_nacimiento_ecu",
+              "label": "SOLICITUD ACTA DE  NACIMIENTO - REGISTRO CIVIL ECU"
+            }
+          ]
+        },
+        {
+          "id": "fld-4",
+          "order": 4,
+          "title": "Laboral",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "revision_contratos",
+              "label": "REVISIÓN DE CONTRATOS LABORALES"
+            },
+            {
+              "value": "denuncia_ministerio_trabajo",
+              "label": "DENUNCIA ANTE PORTAL DE MINISTERIO DE TRABAJO"
+            }
+          ]
+        },
+        {
+          "id": "fld-5",
+          "order": 5,
+          "title": "ACCESO A SERVICIOS ESENCIALES",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "orientacion_denuncia",
+              "label": "ORIENTACIÓN EN PROCESO DE DENUNCIA"
+            },
+            {
+              "value": "referencias_ong",
+              "label": "REFERENCIAS A ONG, DEFENSORÍA PÚBLICA, DEFENSORIA DEL PUEBLO"
+            }
+          ]
+        },
+        {
+          "id": "fld-6",
+          "order": 6,
+          "title": "VÍCTIMA RECONOCIDA",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "declaracion_consulado_colombia",
+              "label": "DECLARACIÓN ANTE EL CONSULADO DE COLOMBIA"
+            },
+            {
+              "value": "actualizacion_datos_indemnizacion",
+              "label": "ACTUALIZACIÓN DE DATOS PARA EL PROCESO DE INDEMINIZACIÓN"
+            },
+            {
+              "value": "recurso_reposicion_apelacion",
+              "label": "RECURSO DE REPOSICIÓN CON SUBISIDIO EN APELACIÓN"
+            },
+            {
+              "value": "solicitud_pago_indemnizacion_uariv",
+              "label": "SOLICITUD DE PAGO DE INDEMNIZACIÓN ANTE LA UARIV"
+            }
+          ]
+        },
+        {
+          "id": "fld-7",
+          "order": 7,
+          "title": "DENUNCIA",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "referencia_especializada",
+              "label": "REFERENCIA ESPECIALIZADA"
+            }
+          ]
+        },
+        {
+          "id": "fld-8",
+          "order": 8,
+          "title": "INQUILINATO",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "elaboracion_contrato",
+              "label": "ELABORACION DE CONTRATO"
+            },
+            {
+              "value": "orientacion_deberes_derechos_arrendaticia",
+              "label": "ORIENTACIÓN EN DEBERES Y DERECHOS DE LA RELACION ARRENDATICIA"
+            }
+          ]
+        },
+        {
+          "id": "fld-9",
+          "order": 9,
+          "title": "DESPLAZAMIENTO INTERNO",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "informacion_general_derechos",
+              "label": "INFORMACIÓN GENERAL EN DERECHOS"
+            }
+          ]
+        },
+        {
+          "id": "fld-10",
+          "order": 10,
+          "title": "OTRO",
+          "type": "long-text"
+        }
+      ]
+    },
+    {
+      "id": "sec-2",
+      "order": 2,
+      "title": "Documentacion Habilitante",
+      "fields": [
+        {
+          "id": "fld-11",
+          "order": 1,
+          "title": "Documento",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "dni_pais_origen", "label": "DNI PAÍS DE ORIGEN" },
+            { "value": "cedula", "label": "CEDULA" },
+            {
+              "value": "pasaporte_pais_origen",
+              "label": "PASAPORTE DE PAÍS DE ORIGEN"
+            },
+            { "value": "licencia_conducir", "label": "LICENCIA DE CONDUCIR" },
+            { "value": "renovacion_virte", "label": "RENOVACIÓN VIRTE" },
+            { "value": "visa_temporal", "label": "VISA TEMPORAL" },
+            { "value": "visa_permanente", "label": "VISA PERMANENTE" },
+            { "value": "visa_humanitaria", "label": "VISA HUMANITARIA" },
+            {
+              "value": "visa_solicitante_refugio",
+              "label": "VISA DE SOLICITANTE DE REFUGIO"
+            },
+            {
+              "value": "visa_proteccion_internacional",
+              "label": "VISA DE PROTECCION INTERNACIONAL"
+            },
+            {
+              "value": "partida_acta_nacimiento",
+              "label": "PARTIDA/ ACTA DE NACIMIENTO"
+            },
+            { "value": "registro_civil", "label": "REGISTRO CIVIL" },
+            { "value": "apatrida", "label": "APATRIDA" },
+            {
+              "value": "no_posee_documentacion",
+              "label": "NO POSEE DOCUMENTACIÓN"
+            },
+            { "value": "carta_andina", "label": "CARTA ANDINA" },
+            {
+              "value": "otro_documento_pais_origen",
+              "label": "OTRO DOCUMENTO DE PAÍS DE ORIGEN"
+            }
+          ]
+        },
+        {
+          "id": "fld-12",
+          "order": 3,
+          "title": "Tipo de visa temporal",
+          "type": "select",
+          "options": [
+            { "value": "visa_mercosur", "label": "VISA MERCOSUR" },
+            {
+              "value": "visa_migrante_andino",
+              "label": "VISA DEL ESTATUTO DEL MIGRANTE ANDINO"
+            },
+            { "value": "visa_estudiante", "label": "VISA DE ESTUDIANTE" },
+            {
+              "value": "visa_amparo_temporal",
+              "label": "VISA DE AMPARO TEMPORAL"
+            }
+          ]
+        },
+        {
+          "id": "fld-13",
+          "order": 4,
+          "title": "Tipo de visa permanente",
+          "type": "select",
+          "options": [
+            { "value": "visa_mercosur", "label": "VISA MERCOSUR" },
+            { "value": "visa_21_meses", "label": "VISA POR 21 MESES" },
+            {
+              "value": "visa_amparo_permanente",
+              "label": "VISA DE AMPARO PERMANENTE"
+            }
+          ]
+        },
+        {
+          "id": "fld-14",
+          "order": 5,
+          "title": "Descripcion del caso",
+          "type": "long-text"
+        },
+        {
+            "id": "fld-15",
+            "order": 6,
+            "title": "Antecedentes legales",
+            "type": "long-text"
+        },
+        {
+            "id": "fld-16",
+            "order": 7,
+            "title": "Normativa aplicable",
+            "type": "long-text"
+        },
+        {
+            "id": "fld-17",
+            "order": 8,
+            "title": "Acciones realizadas",
+            "type": "long-text"
+        },
+        {
+            "id": "fld-18",
+            "order": 9,
+            "title": "Seguimiento del caso",
+            "type": "long-text"
+        }
+      ]
+    }
+  ]
+}

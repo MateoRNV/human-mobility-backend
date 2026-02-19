@@ -3,10 +3,11 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Person } from './person/person.entity';
-import { FormSubmission } from './form-submission/form-submission.entity';
-import { FormDefinition } from './form-definition/form-definition.entity';
+import { Person } from './persons/person.entity';
+import { FormSubmission } from './forms/entities/form-submission.entity';
+import { FormDefinition } from './forms/entities/form-definition.entity';
 import { PersonsModule } from './persons/persons.module';
+import { FormsModule } from './forms/forms.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PersonsModule } from './persons/persons.module';
       retryAttempts: 3,
     }),
     PersonsModule,
+    FormsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

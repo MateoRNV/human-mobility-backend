@@ -1,0 +1,601 @@
+{
+  "version": 1,
+  "slug": "triaje",
+  "name": "Triaje",
+  "title": "Ficha Nro. 0001",
+  "sections": [
+    {
+      "id": "sec-1",
+      "order": 1,
+      "title": "Ingreso del servicio",
+      "fields": [
+        {
+          "id": "fld-1",
+          "order": 1,
+          "title": "Fecha de registro",
+          "type": "date",
+          "required": true,
+          "placeHolder": "Selecciona una fecha"
+        },
+        {
+          "id": "fld-2",
+          "order": 2,
+          "title": "Motivo de consulta",
+          "type": "multi-select",
+          "options": [
+            { "value": "trabajo_social", "label": "Trabajo Social" },
+            { "value": "psicologia", "label": "Psicología" },
+            { "value": "legal", "label": "Legal" },
+            { "value": "medios_vida", "label": "Medios de Vida" },
+            {
+              "value": "otros",
+              "label": "Otros: (Consultas de salud, educación, alojamiento, alimentación, acceso a servicios)"
+            }
+          ],
+          "required": true
+        },
+        {
+          "id": "fld-3",
+          "order": 3,
+          "title": "¿Se encuentra activo en el servicio?",
+          "type": "select",
+          "options": [
+            { "value": "primera_vez", "label": "Primera vez" },
+            { "value": "recurrente", "label": "Recurrente" }
+          ],
+          "required": true
+        },
+        {
+          "id": "fld-4",
+          "order": 4,
+          "title": "Fecha de última atención",
+          "type": "date"
+        }
+      ]
+    },
+    {
+      "id": "sec-2",
+      "order": 2,
+      "title": "Datos de identificación del usuario/a",
+      "fields": [
+        {
+          "id": "fld-5",
+          "order": 5,
+          "title": "Nombres y apellidos del usuario/a representante",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "fld-6",
+          "order": 6,
+          "title": "Dirección del domicilio actual",
+          "type": "textarea"
+        },
+        {
+          "id": "fld-7",
+          "order": 7,
+          "title": "Sector",
+          "type": "text"
+        },
+        {
+          "id": "fld-8",
+          "order": 8,
+          "title": "Cantón",
+          "type": "text"
+        },
+        {
+          "id": "fld-9",
+          "order": 9,
+          "title": "Teléfono(s)",
+          "type": "text"
+        },
+        {
+          "id": "fld-10",
+          "order": 10,
+          "title": "Otro contacto",
+          "type": "text"
+        },
+        {
+          "id": "fld-11",
+          "order": 11,
+          "title": "Correo electrónico",
+          "type": "text"
+        },
+        {
+          "id": "fld-12",
+          "order": 12,
+          "title": "¿Documento de identificación?",
+          "type": "matrix",
+          "multiselect": true,
+          "rows": [
+            {
+              "value": "header_estado",
+              "label": "Estado del documento",
+              "isHeader": true
+            },
+            {
+              "value": "dni_origen",
+              "label": "DNI (Documento de identidad del país de origen)"
+            },
+            { "value": "cedula_ecuatoriana", "label": "Cédula Ecuatoriana" },
+            {
+              "value": "pasaporte_origen",
+              "label": "Pasaporte (de país de origen)"
+            },
+            { "value": "licencia_conducir", "label": "Licencia de conducir" },
+            { "value": "visa_virte", "label": "Visa VIRTE" },
+            { "value": "visa_temporal", "label": "Visa temporal" },
+            { "value": "visa_permanente", "label": "Visa permanente" },
+            {
+              "value": "visa_humanitaria",
+              "label": "Visa humanitaria (Refugio)"
+            },
+            { "value": "partida_nacimiento", "label": "Partida de nacimiento" },
+            {
+              "value": "no_posee_documentacion",
+              "label": "No posee documentación"
+            },
+            {
+              "value": "otros_nrc_refugio",
+              "label": "Otros: NRC les sacó la cita para solicitud de refugio"
+            }
+          ],
+          "columns": [
+            { "value": "vigente", "label": "V" },
+            { "value": "caducado", "label": "C" }
+          ],
+          "observations": true,
+          "observationsLabel": "Observaciones:"
+        },
+        {
+          "id": "fld-13",
+          "order": 13,
+          "title": "Número de documento",
+          "type": "text"
+        },
+        {
+          "id": "fld-14",
+          "order": 14,
+          "title": "Riesgo de apatridia",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Si" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-15",
+          "order": 15,
+          "title": "Fecha de nacimiento",
+          "type": "date"
+        },
+        {
+          "id": "fld-16",
+          "order": 16,
+          "title": "Edad",
+          "type": "number"
+        },
+        {
+          "id": "fld-17",
+          "order": 17,
+          "title": "País de origen",
+          "type": "text"
+        },
+        {
+          "id": "fld-18",
+          "order": 18,
+          "title": "Fecha de ingreso",
+          "type": "date"
+        },
+        {
+          "id": "fld-19",
+          "order": 19,
+          "title": "Estatus migratorio",
+          "type": "select",
+          "options": [
+            { "value": "regular", "label": "Regular" },
+            { "value": "irregular", "label": "Irregular" }
+          ]
+        },
+        {
+          "id": "fld-20",
+          "order": 20,
+          "title": "Intenciones migratorias",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "vocacion_permanencia",
+              "label": "Vocación de permanencia"
+            },
+            { "value": "transito", "label": "Tránsito" },
+            {
+              "value": "desplazamiento_interno",
+              "label": "Desplazamiento interno"
+            },
+            { "value": "otros", "label": "Otros" }
+          ]
+        },
+        {
+          "id": "fld-21",
+          "order": 21,
+          "title": "Sexo",
+          "type": "select",
+          "options": [
+            { "value": "hombre", "label": "Hombre" },
+            { "value": "mujer", "label": "Mujer" },
+            {
+              "value": "intersex",
+              "label": "Intersex (si la persona lo declara)"
+            }
+          ]
+        },
+        {
+          "id": "fld-22",
+          "order": 22,
+          "title": "Género",
+          "type": "select",
+          "options": [
+            { "value": "masculino", "label": "Masculino" },
+            { "value": "femenino", "label": "Femenino" },
+            { "value": "no_responde", "label": "No responde" },
+            { "value": "otro", "label": "Otro (si la persona lo declara)" }
+          ]
+        },
+        {
+          "id": "fld-23",
+          "order": 23,
+          "title": "Etnia",
+          "type": "select",
+          "options": [
+            { "value": "blanco", "label": "Blanco" },
+            { "value": "afrodescendiente", "label": "Afrodescendiente" },
+            { "value": "mestizo", "label": "Mestizo" },
+            { "value": "indigena", "label": "Indígena" },
+            { "value": "montubio", "label": "Montubio" },
+            { "value": "otro", "label": "Otro (si la persona lo declara)" }
+          ]
+        },
+        {
+          "id": "fld-24",
+          "order": 24,
+          "title": "Estado Civil (para personas mayores de 12 años de edad)",
+          "type": "select",
+          "options": [
+            { "value": "soltero", "label": "Soltero" },
+            { "value": "union_hecho", "label": "Unión de hecho" },
+            { "value": "divorciado", "label": "Divorciado" },
+            { "value": "viudo", "label": "Viudo" },
+            { "value": "casado", "label": "Casado" }
+          ]
+        },
+        {
+          "id": "fld-25",
+          "order": 25,
+          "title": "Nombre del representante del grupo familiar",
+          "type": "text"
+        },
+        {
+          "id": "fld-26",
+          "order": 26,
+          "title": "¿Pertenece a un grupo familiar?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-27",
+          "order": 27,
+          "title": "Parentesco con el representante del hogar (Si aplica)",
+          "type": "select",
+          "options": [
+            { "value": "madre", "label": "Madre" },
+            { "value": "padre", "label": "Padre" },
+            { "value": "esposo_esposa_pareja", "label": "Esposo/a o pareja" },
+            { "value": "hija", "label": "Hija/o" },
+            { "value": "hermanada", "label": "Hermana/o" },
+            { "value": "cunada_cunado", "label": "Cuñada/o" },
+            { "value": "abuela_abuelo", "label": "Abuela/o" },
+            { "value": "amigo_amiga", "label": "Amigo/a" },
+            { "value": "nuera_yerno", "label": "Nuera/Yerno" },
+            { "value": "suegra_suegro", "label": "Suegra/o" },
+            { "value": "otro", "label": "Otro" }
+          ],
+          "extraField": {
+            "type": "text",
+            "placeholder": "Especificar en caso de 'Otro'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sec-3",
+      "order": 3,
+      "title": "Situaciones de vulnerabilidad",
+      "fields": [
+        {
+          "id": "fld-28",
+          "order": 28,
+          "title": "NNA separados",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-29",
+          "order": 29,
+          "title": "NNA no acompañados",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-30",
+          "order": 30,
+          "title": "NNA en riesgo",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-31",
+          "order": 31,
+          "title": "Trabajo infantil",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-32",
+          "order": 32,
+          "title": "Mujer sola en riesgo",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-33",
+          "order": 33,
+          "title": "Niña/Adolescente embarazada",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-34",
+          "order": 34,
+          "title": "Mujer embarazada",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-35",
+          "order": 35,
+          "title": "Mujer en lactancia",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-36",
+          "order": 36,
+          "title": "Persona LGBTIQ+",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-37",
+          "order": 37,
+          "title": "Indicios de violencia basada en género",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-38",
+          "order": 38,
+          "title": "Presunta trata de personas",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-39",
+          "order": 39,
+          "title": "Presunto tráfico ilícito de migrantes",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-40",
+          "order": 40,
+          "title": "Personas adultas mayores en situación de vulnerabilidad",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-41",
+          "order": 41,
+          "title": "Indicios de sobreviviente de tortura",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-42",
+          "order": 42,
+          "title": "Víctima de xenofobia",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-43",
+          "order": 43,
+          "title": "Discapacidad de algún miembro del grupo familiar",
+          "type": "checkbox",
+          "extraField": { "type": "text", "placeholder": "Si marcó, ¿cuál?" }
+        },
+        {
+          "id": "fld-44",
+          "order": 44,
+          "title": "Enfermedad catastrófica/crónica",
+          "type": "checkbox",
+          "extraField": { "type": "text", "placeholder": "Si marcó, ¿cuál?" }
+        },
+        {
+          "id": "fld-45",
+          "order": 45,
+          "title": "Otro tipo de vulnerabilidad",
+          "type": "checkbox",
+          "extraField": { "type": "text", "placeholder": "Si marcó, ¿cuál?" },
+          "observations": true,
+          "observationsLabel": "Observaciones de vulnerabilidad: "
+        }
+      ]
+    },
+    {
+      "id": "sec-4",
+      "order": 4,
+      "title": "Mecanismos de afrontamiento",
+      "fields": [
+        {
+          "id": "fld-46",
+          "order": 46,
+          "title": "Sexo por supervivencia",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-47",
+          "order": 47,
+          "title": "Número de comidas diarias",
+          "type": "select",
+          "options": [
+            { "value": "1", "label": "Una" },
+            { "value": "2", "label": "Dos" },
+            { "value": "3", "label": "Tres o más" }
+          ]
+        },
+        {
+          "id": "fld-48",
+          "order": 48,
+          "title": "Tipo de vivienda",
+          "type": "multi-select",
+          "options": [
+            { "value": "propia", "label": "Vivienda propia" },
+            { "value": "arrendada", "label": "Arrendada" },
+            { "value": "albergue", "label": "Albergue" },
+            { "value": "compartida", "label": "Vivienda compartida" },
+            { "value": "posada", "label": "Posada" }
+          ]
+        },
+        {
+          "id": "fld-49",
+          "order": 49,
+          "title": "¿Cuántas personas viven?",
+          "type": "text"
+        },
+        {
+          "id": "fld-50",
+          "order": 50,
+          "title": "Riesgo de hacinamiento",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-51",
+          "order": 51,
+          "title": "Mendicidad o riesgo de mendicidad",
+          "type": "checkbox"
+        },
+        {
+          "id": "fld-52",
+          "order": 52,
+          "title": "¿Los niños asisten a la escuela?",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "id": "sec-5",
+      "order": 5,
+      "title": "Situación socioeconómica",
+      "fields": [
+        {
+          "id": "fld-53",
+          "order": 53,
+          "title": "Nivel de instrucción",
+          "type": "multi-select",
+          "options": [
+            { "value": "ninguno", "label": "Ninguno" },
+            { "value": "inicial", "label": "Inicial" },
+            { "value": "basico", "label": "Básico" },
+            { "value": "media", "label": "Media" },
+            { "value": "bachillerato", "label": "Bachillerato" },
+            { "value": "tecnico", "label": "Técnico" },
+            { "value": "superior", "label": "Superior" }
+          ]
+        },
+        {
+          "id": "fld-54",
+          "order": 54,
+          "title": "Profesión / Capacitación técnica",
+          "type": "text"
+        },
+        {
+          "id": "fld-55",
+          "order": 55,
+          "title": "Idiomas (además del español)",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ],
+          "extraField": { "type": "text", "placeholder": "Si marcó Sí, ¿cuál?" }
+        },
+        {
+          "id": "fld-56",
+          "order": 56,
+          "title": "Experiencia previa",
+          "type": "textarea"
+        },
+        {
+          "id": "fld-57",
+          "order": 57,
+          "title": "Actividad económica actual",
+          "type": "multi-select",
+          "options": [
+            { "value": "desempleado", "label": "Desempleado" },
+            { "value": "trabajo_formal", "label": "Trabajo formal/empleo" },
+            {
+              "value": "trabajo_informal",
+              "label": "Trabajo informal/autempleo"
+            }
+          ]
+        },
+        {
+          "id": "fld-58",
+          "order": 58,
+          "title": "Habilidades",
+          "type": "textarea"
+        },
+        {
+          "id": "fld-59",
+          "order": 59,
+          "title": "Ingreso promedio mensual del grupo familiar",
+          "type": "text"
+        }
+      ],
+      "observations": true,
+      "observationsLabel": "OBSERVACIONES: "
+    },
+    {
+      "id": "sec-6",
+      "order": 6,
+      "title": "Acciones",
+      "fields": [
+        {
+          "id": "fld-60",
+          "order": 60,
+          "title": "Derivación interna",
+          "type": "multi-select",
+          "options": [
+            { "value": "trabajo_social", "label": "Trabajo social" },
+            { "value": "psicologia", "label": "Psicología" },
+            { "value": "legal", "label": "Legal" },
+            {
+              "value": "promocion_medios_vida",
+              "label": "Promoción de medios de vida"
+            }
+          ]
+        },
+        {
+          "id": "fld-61",
+          "order": 61,
+          "title": "Referencia externa",
+          "type": "textarea"
+        },
+        {
+          "id": "fld-62",
+          "order": 62,
+          "title": "Motivos de la referencia",
+          "type": "textarea"
+        }
+      ]
+    }
+  ]
+}

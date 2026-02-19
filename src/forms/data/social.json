@@ -1,0 +1,885 @@
+{
+  "version": 1,
+  "slug": "social",
+  "name": "Trabajo Social",
+  "title": "Ficha Nro. 0001",
+  "sections": [
+    {
+      "id": "sec-1",
+      "order": 1,
+      "title": "SITUACIÓN DE VULNERABILIDAD DESCRITA EN FICHA DE TRIAJE",
+      "fields": [
+        {
+          "id": "fld-1",
+          "order": 1,
+          "title": "",
+          "type": "long-text"
+        }
+      ]
+    },
+    {
+      "id": "sec-2",
+      "order": 2,
+      "title": "Estructura Familiar",
+      "fields": [
+        {
+          "id": "fld-2",
+          "order": 1,
+          "title": "",
+          "type": "table",
+          "columns": [
+            { "id": "name", "header": "Nombres y Apellidos", "width": "20%" },
+            { "id": "age", "header": "Edad", "width": "7%" },
+            { "id": "relationship", "header": "Parentesco", "width": "15%" },
+            {
+              "id": "marital_status",
+              "header": "Estado Civil",
+              "width": "15%"
+            },
+            {
+              "id": "education_level",
+              "header": "Grado de Intrucción",
+              "width": "12%"
+            },
+            { "id": "occupation", "header": "Ocupación", "width": "15%" },
+            { "id": "disability", "header": "Discapacidad", "width": "10%" }
+          ],
+          "allowAddRows": true,
+          "canDeleteRows": true,
+          "addRowText": "Agregar fila"
+        },
+        {
+          "id": "fld-3",
+          "order": 2,
+          "title": "Tipos de familia",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "nuclear",
+              "label": "Nuclear"
+            },
+            {
+              "value": "ampliada",
+              "label": "Ampliada"
+            },
+            {
+              "value": "incompleta",
+              "label": "Incompleta"
+            },
+            {
+              "value": "reorganizada",
+              "label": "Reorganizada"
+            },
+            {
+              "value": "monoparental",
+              "label": "Monoparental"
+            },
+            {
+              "value": "homoparental",
+              "label": "Homoparental"
+            },
+            {
+              "value": "padres_separados",
+              "label": "Padres separados"
+            },
+            {
+              "value": "unipersonal",
+              "label": "Unipersonal"
+            }
+          ]
+        },
+        {
+          "id": "fld-4",
+          "order": 3,
+          "title": "Autopercepción de identidad de Género",
+          "type": "select",
+          "options": [
+            {
+              "value": "masculino",
+              "label": "Masculino"
+            },
+            {
+              "value": "femenino",
+              "label": "Femenino"
+            },
+            {
+              "value": "trans",
+              "label": "Trans"
+            },
+            {
+              "value": "genero_fluido",
+              "label": "Genero fluido"
+            },
+            {
+              "value": "no_responde",
+              "label": "No responde"
+            }
+          ]
+        },
+        {
+          "id": "fld-5",
+          "order": 4,
+          "title": "Orientación Sexual",
+          "type": "select",
+          "options": [
+            {
+              "value": "heterosexual",
+              "label": "Heterosexual"
+            },
+            {
+              "value": "bisexual",
+              "label": "Bisexual"
+            },
+            {
+              "value": "gay",
+              "label": "Gay"
+            },
+            {
+              "value": "lesbiana",
+              "label": "Lesbiana"
+            },
+            {
+              "value": "asexual",
+              "label": "Asexual"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ]
+        },
+        {
+          "id": "fld-6",
+          "order": 5,
+          "title": "Descripción familiar",
+          "type": "long-text"
+        }
+      ]
+    },
+    {
+      "id": "sec-3",
+      "order": 3,
+      "title": "PROBLEMÁTICA SOCIAL Y VULNERABILIDAD",
+      "fields": [
+        {
+          "id": "fld-7",
+          "order": 1,
+          "title": "NNA en situación de riesgo",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "nna_padre_madre", "label": "NNA padre/madre" },
+            { "value": "nna_jefe_hogar", "label": "NNA jefe de hogar" },
+            {
+              "value": "adolescente_embarazada",
+              "label": "Adolescente embarazada"
+            },
+            {
+              "value": "nna_explotacion_infantil",
+              "label": "NNA explotación infantil"
+            },
+            {
+              "value": "nna_trabajo_infantil",
+              "label": "NNA trabajo infantil"
+            },
+            {
+              "value": "nna_riesgo_no_asistir_escuela",
+              "label": "NNA riesgo no asistir a la escuela"
+            },
+            {
+              "value": "nna_necesidades_particulares_educacion",
+              "label": "NNA necesidades particulares de educación"
+            },
+            {
+              "value": "nna_asociado_grupos_armados",
+              "label": "NNA asociado a fuerza grupos armados"
+            },
+            {
+              "value": "nna_conflicto_ley",
+              "label": "NNA conflicto con la ley"
+            }
+          ]
+        },
+        {
+          "id": "fld-8",
+          "order": 2,
+          "title": "NNA no acompañado o separado",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "nna_separado", "label": "NNA separado" },
+            { "value": "nna_no_acompañado", "label": "NNA no acompañado" },
+            { "value": "nna_jefe_hogar", "label": "NNA jefe de hogar" },
+            {
+              "value": "nna_cuidado_institucional",
+              "label": "NNA en cuidado institucional"
+            },
+            {
+              "value": "nna_familia_hogar_acogida",
+              "label": "NNA en familia u hogar de acogida"
+            }
+          ]
+        },
+        {
+          "id": "fld-9",
+          "order": 3,
+          "title": "Mujer en situación de riesgo",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "mujer_riesgo", "label": "Mujer en riesgo" },
+            {
+              "value": "mujer_sola_riesgo",
+              "label": "Mujer sola en situación de riesgo"
+            },
+            {
+              "value": "mujer_lactancia",
+              "label": "Mujer en período de lactancia"
+            }
+          ]
+        },
+        {
+          "id": "fld-10",
+          "order": 4,
+          "title": "Adulto Mayor en situación de riesgo",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "am_con_niños", "label": "AM con niños a su cargo" },
+            { "value": "am_solo", "label": "AM solo" },
+            {
+              "value": "am_incuidado",
+              "label": "AM incapaz de cuidar de sí mismo"
+            }
+          ]
+        },
+        {
+          "id": "fld-11",
+          "order": 5,
+          "title": "Padre/Madre/Cuidador solo",
+          "type": "multi-checkbox",
+          "options": [
+            {
+              "value": "padre_jefe_hogar",
+              "label": "Padre/madre jefe de hogar solo"
+            },
+            { "value": "jefe_hogar_solo", "label": "Jefe de hogar solo" },
+            {
+              "value": "cuidador_jefe_hogar",
+              "label": "Cuidador jefe de hogar solo"
+            }
+          ]
+        },
+        {
+          "id": "fld-12",
+          "order": 6,
+          "title": "Persona con algún tipo de discapacidad",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "discapacidad_visual", "label": "Discapacidad visual" },
+            {
+              "value": "discapacidad_auditiva",
+              "label": "Discapacidad auditiva"
+            },
+            { "value": "discapacidad_fisica", "label": "Discapacidad física" },
+            {
+              "value": "discapacidad_intelectual",
+              "label": "Discapacidad intelectual"
+            },
+            {
+              "value": "discapacidad_psicosocial",
+              "label": "Discapacidad psicosocial"
+            },
+            {
+              "value": "discapacidad_lenguaje",
+              "label": "Discapacidad lenguaje"
+            },
+            {
+              "value": "discapacidad_multiple",
+              "label": "Discapacidad múltiple"
+            },
+            { "value": "sordoceguera", "label": "Sordoceguera" }
+          ]
+        },
+        {
+          "id": "fld-13",
+          "order": 7,
+          "title": "Serios problemas médicos",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "enfermedad_mental", "label": "Enfermedad mental" },
+            { "value": "desnutricion", "label": "Desnutrición" },
+            { "value": "embarazo_riesgo", "label": "Embarazo de riesgo" },
+            { "value": "enfermedad_cronica", "label": "Enfermedad crónica" },
+            {
+              "value": "condicion_medica_critica",
+              "label": "Condición médica crítica"
+            },
+            {
+              "value": "otra_condicion_medica",
+              "label": "Otra condición médica"
+            },
+            { "value": "adiccion", "label": "Adicción" }
+          ]
+        },
+        {
+          "id": "fld-14",
+          "order": 8,
+          "title": "Unidad Familiar",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "tracing_requerido", "label": "Tracing requerido" },
+            {
+              "value": "reunificacion_familiar_requerida",
+              "label": "Reunificación Familiar requerida"
+            }
+          ]
+        },
+        {
+          "id": "fld-15",
+          "order": 9,
+          "title": "Necesidades de Protección Legal o Física",
+          "type": "multi-checkbox",
+          "options": [
+            {
+              "value": "falta_documentacion_legal",
+              "label": "Falta de documentación legal"
+            },
+            {
+              "value": "incapacidad_cubrir_necesidades",
+              "label": "Incapacidad de cubrir sus necesidades básicas"
+            },
+            {
+              "value": "falta_acceso_servicios",
+              "label": "Falta de acceso a servicios básicos"
+            },
+            { "value": "matrimonio_mixto", "label": "Matrimonio mixto" },
+            {
+              "value": "desplazamientos_multiples",
+              "label": "Desplazamientos múltiples"
+            },
+            {
+              "value": "riesgo_devolucion",
+              "label": "Personas en riesgo de devolución"
+            },
+            {
+              "value": "riesgo_deportacion",
+              "label": "En riesgo de deportación"
+            },
+            {
+              "value": "detenido_pais_asilo",
+              "label": "Detenido en país de asilo"
+            },
+            {
+              "value": "detenido_pais_origen",
+              "label": "Anteriormente detenido en el país de origen"
+            },
+            {
+              "value": "detenido_otra_ubicacion",
+              "label": "Anteriormente detenido en otra ubicación"
+            }
+          ]
+        },
+        {
+          "id": "fld-16",
+          "order": 10,
+          "title": "Violencia Sexual y Violencia Basada en Género",
+          "type": "multi-checkbox",
+          "options": [
+            {
+              "value": "vbg_asilo",
+              "label": "Víctima Sobreviviente de VBG en país de asilo"
+            },
+            {
+              "value": "vbg_huida",
+              "label": "Victima Sobreviviente de VBG durante la huida"
+            },
+            {
+              "value": "vbg_origen",
+              "label": "Victima Sobreviviente de VBG en país de origen"
+            },
+            {
+              "value": "mutilacion_genital",
+              "label": "Mutilación genital femenina"
+            },
+            {
+              "value": "practicas_daninas",
+              "label": "Prácticas tradicionales dañinas"
+            },
+            { "value": "matrimonio_forzado", "label": "Matrimonio forzado" },
+            { "value": "sexo_supervivencia", "label": "Sexo por supervivencia" }
+          ]
+        },
+        {
+          "id": "fld-17",
+          "order": 11,
+          "title": "Otras definiciones importantes",
+          "type": "multi-checkbox",
+          "options": [
+            {
+              "value": "tipos_vbg",
+              "label": "Tipos de violencia sexual y violencia basada en género"
+            },
+            { "value": "trata_personas", "label": "Trata de personas" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-4",
+      "order": 4,
+      "title": "PROCESO MIGRATORIO",
+      "fields": [
+        {
+          "id": "fld-18",
+          "order": 1,
+          "title": "Razones de salida de su país de origen",
+          "type": "multi-select",
+          "observations": true,
+          "observationsLabel": "Detalles:",
+          "options": [
+            { "value": "persecucion", "label": "Persecución" },
+            {
+              "value": "amenazas_vida",
+              "label": "Amenazas contra la vida, seguridad, libertad e integridad"
+            },
+            {
+              "value": "situaciones_violencia",
+              "label": "Situaciones de Violencia"
+            },
+            {
+              "value": "detencion_arbitraria",
+              "label": "Detención arbitraria"
+            },
+            { "value": "discriminacion", "label": "Discriminación" },
+            {
+              "value": "amenaza_reclutamiento",
+              "label": "Amenaza de reclutamiento forzado"
+            },
+            {
+              "value": "falta_acceso_medicina",
+              "label": "Falta de acceso a medicina, alimentación y servicios básicos"
+            },
+            {
+              "value": "busqueda_trabajo",
+              "label": "Búsqueda de trabajo y mejores condiciones de vida"
+            },
+            { "value": "estudios", "label": "Estudios" },
+            {
+              "value": "matrimonio_reunificacion",
+              "label": "Matrimonio o reunificación familiar"
+            }
+          ]
+        },
+        {
+          "id": "fld-19",
+          "order": 2,
+          "title": "Ingreso al país",
+          "type": "multi-select",
+          "options": [
+            { "value": "ingreso_regular", "label": "Ingreso regular" },
+            { "value": "ingreso_irregular", "label": "Ingreso irregular" },
+            { "value": "trata_personas", "label": "Trata de personas" },
+            { "value": "trafico_ilicito", "label": "Tráfico ilícito" },
+            {
+              "value": "violencia_proceso",
+              "label": "Violencia durante el proceso"
+            },
+            {
+              "value": "abuso_autoridades",
+              "label": "Abuso por parte de autoridades"
+            },
+            { "value": "robo_hurto", "label": "Robo o hurto" },
+            { "value": "perdida_documentos", "label": "Pérdida de documentos" },
+            {
+              "value": "reclutamiento_forzoso",
+              "label": "Reclutamiento forzoso"
+            }
+          ]
+        },
+        {
+          "id": "fld-20",
+          "order": 3,
+          "title": "¿Hace cuánto tiempo salió de su país?",
+          "type": "text"
+        },
+        {
+          "id": "fld-21",
+          "order": 4,
+          "title": "Lugar de destino",
+          "type": "text"
+        },
+        {
+          "id": "fld-22",
+          "order": 5,
+          "title": "Reunificacion",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-23",
+          "order": 6,
+          "title": "Países de tránsito previo al Ecuador",
+          "type": "text"
+        },
+        {
+          "id": "fld-24",
+          "order": 7,
+          "title": "Fechas estimadas",
+          "type": "text"
+        },
+        {
+          "id": "fld-25",
+          "order": 8,
+          "title": "Descripción",
+          "type": "long-text"
+        }
+      ]
+    },
+    {
+      "id": "sec-5",
+      "order": 5,
+      "title": "SALUD",
+      "fields": [
+        {
+          "id": "fld-26",
+          "order": 1,
+          "title": "¿Tiene alguna enfermedad?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-27",
+          "order": 2,
+          "title": "¿Es una enfermedad catastrófica, huérfana o rara?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-28",
+          "order": 3,
+          "title": "¿Qué enfermedad tiene?",
+          "type": "long-text"
+        },
+        {
+          "id": "fld-29",
+          "order": 4,
+          "title": "¿Qué medicamentos?",
+          "type": "long-text"
+        },
+        {
+          "id": "fld-30",
+          "order": 5,
+          "title": "¿Consumo problemático de sustancias?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-31",
+          "order": 6,
+          "title": "¿Presenta problemas de salud mental?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-32",
+          "order": 7,
+          "title": "¿Tiene discapacidad?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-33",
+          "order": 8,
+          "title": "¿Tiene carnet de discapacidad?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-34",
+          "order": 9,
+          "title": "¿Porcentaje de discapacidad?",
+          "type": "text"
+        },
+        {
+          "id": "fld-35",
+          "order": 10,
+          "title": "Tipo de discapacidad",
+          "type": "multi-select",
+          "options": [
+            { "value": "fisica", "label": "Física" },
+            { "value": "intelectual", "label": "Intelectual" },
+            { "value": "lenguaje", "label": "Lenguaje" },
+            { "value": "visual", "label": "Visual" },
+            { "value": "auditiva", "label": "Auditiva" },
+            { "value": "psicosocial", "label": "Psicosocial" }
+          ]
+        },
+        {
+          "id": "fld-36",
+          "order": 11,
+          "title": "¿Está embarazada?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" },
+            { "value": "no_aplica", "label": "No aplica" }
+          ]
+        },
+        {
+          "id": "fld-37",
+          "order": 12,
+          "title": "Último control prenatal",
+          "type": "text"
+        },
+        {
+          "id": "fld-38",
+          "order": 13,
+          "title": "¿Se presume desnutrición infantil?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" },
+            { "value": "no_aplica", "label": "No aplica" }
+          ]
+        },
+        {
+          "id": "fld-39",
+          "order": 14,
+          "title": "¿Se encuentra en período de lactancia?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" },
+            { "value": "no_aplica", "label": "No aplica" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-6",
+      "order": 6,
+      "title": "VIVIENDA Y SERVICIOS",
+      "fields": [
+        {
+          "id": "fld-40",
+          "order": 1,
+          "title": "Tipo de vivienda",
+          "type": "select",
+          "options": [
+            { "value": "casa", "label": "Casa" },
+            { "value": "mediagua", "label": "Mediagua" },
+            { "value": "departamento", "label": "Departamento" },
+            { "value": "habitacion", "label": "Habitación" },
+            { "value": "residencia", "label": "Residencia" },
+            { "value": "otros", "label": "Otros" }
+          ]
+        },
+        {
+          "id": "fld-41",
+          "order": 2,
+          "title": "Materiales de construcción de la vivienda",
+          "type": "multi-select",
+          "options": [
+            { "value": "madera", "label": "Madera" },
+            { "value": "cemento", "label": "Cemento" },
+            { "value": "ladrillo", "label": "Ladrillo" },
+            { "value": "plastico", "label": "Plástico" },
+            { "value": "carton", "label": "Cartón" },
+            { "value": "paja", "label": "Paja" },
+            { "value": "adobe", "label": "Adobe" },
+            { "value": "otros", "label": "Otros" }
+          ]
+        },
+        {
+          "id": "fld-42",
+          "order": 3,
+          "title": "Número de cuartos",
+          "type": "text"
+        },
+        {
+          "id": "fld-43",
+          "order": 4,
+          "title": "Número de dormitorios",
+          "type": "text"
+        },
+        {
+          "id": "fld-44",
+          "order": 5,
+          "title": "Distribución de la vivienda",
+          "type": "multi-select",
+          "options": [
+            { "value": "sala", "label": "Sala" },
+            { "value": "comedor", "label": "Comedor" },
+            { "value": "bano", "label": "Baño" },
+            { "value": "letrina", "label": "Letrina" },
+            { "value": "pozo_septico", "label": "Pozo séptico" }
+          ],
+          "observations": true,
+          "observationsLabel": "Detalles:"
+        },
+        {
+          "id": "fld-45",
+          "order": 6,
+          "title": "Seguridad de la Vivienda",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "sin_seguridades",
+              "label": "Vivienda no cuenta con seguridades"
+            },
+            { "value": "bano_inseguro", "label": "Baño inseguro" },
+            { "value": "deteriorada", "label": "Vivienda deteriorada" },
+            {
+              "value": "danos_mamposteria",
+              "label": "Daños en mampostería, techos, filtraciones"
+            }
+          ]
+        },
+        {
+          "id": "fld-46",
+          "order": 7,
+          "title": "Agua para consumo",
+          "type": "multi-select",
+          "options": [
+            { "value": "potable", "label": "Potable" },
+            { "value": "entubada", "label": "Entubada" },
+            { "value": "agua_lluvia", "label": "Agua de lluvia" },
+            { "value": "agua_rio", "label": "Agua de río" },
+            { "value": "otro", "label": "Otro" }
+          ]
+        },
+        {
+          "id": "fld-47",
+          "order": 8,
+          "title": "Luz eléctrica",
+          "type": "multi-select",
+          "options": [
+            { "value": "fluido_electrico", "label": "Fluido eléctrico" },
+            { "value": "solar", "label": "Solar" },
+            { "value": "linternas", "label": "Linternas" },
+            { "value": "no_cuenta", "label": "No cuenta" }
+          ]
+        },
+        {
+          "id": "fld-48",
+          "order": 9,
+          "title": "Acceso a servicios básicos",
+          "type": "multi-select",
+          "options": [
+            { "value": "luz", "label": "Luz" },
+            { "value": "agua", "label": "Agua" },
+            { "value": "telefono_movil", "label": "Teléfono móvil" },
+            { "value": "internet", "label": "Internet" },
+            { "value": "alcantarillado", "label": "Alcantarillado" }
+          ]
+        },
+        {
+          "id": "fld-49",
+          "order": 10,
+          "title": "Percepción de seguridad del barrio",
+          "type": "select",
+          "options": [
+            { "value": "seguro", "label": "Seguro" },
+            { "value": "inseguro", "label": "Inseguro" }
+          ]
+        },
+        {
+          "id": "fld-50",
+          "order": 11,
+          "title": "Personas por dormitorio",
+          "type": "select",
+          "options": [
+            { "value": "1_2", "label": "1 a 2 personas" },
+            { "value": "3", "label": "3 personas" },
+            { "value": "4_mas", "label": "4 o más personas" }
+          ]
+        },
+        {
+          "id": "fld-51",
+          "order": 12,
+          "title": "Hacinamiento",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-52",
+          "order": 13,
+          "title": "Observaciones",
+          "type": "long-text"
+        }
+      ]
+    },
+    {
+      "id": "sec-7",
+      "order": 7,
+      "title": "DERIVACIÓN Y REFERENCIA",
+      "fields": [
+        {
+          "id": "fld-53",
+          "order": 1,
+          "title": "¿El usuario requiere otros servicios?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-54",
+          "order": 2,
+          "title": "Tipo de servicio",
+          "type": "multi-select",
+          "options": [
+            { "value": "derivacion", "label": "Derivación" },
+            { "value": "referencia", "label": "Referencia" }
+          ]
+        },
+        {
+          "id": "fld-55",
+          "order": 3,
+          "title": "Fecha de Derivación",
+          "type": "text"
+        },
+        {
+          "id": "fld-56",
+          "order": 4,
+          "title": "Fecha de Referencia",
+          "type": "text"
+        },
+        {
+          "id": "fld-57",
+          "order": 5,
+          "title": "Motivo de Derivación",
+          "type": "text"
+        },
+        {
+          "id": "fld-58",
+          "order": 6,
+          "title": "Motivo de Referencia",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

@@ -12,12 +12,12 @@ import { ApiTags } from '@nestjs/swagger';
 import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
-import { SaveFormDto } from './dto/save-form.dto';
+import { SaveFormDto } from '../forms/dto/save-form.dto';
 
 @ApiTags('personas')
 @Controller('api/personas')
 export class PersonsController {
-  constructor(private readonly personsService: PersonsService) {}
+  constructor(private readonly personsService: PersonsService) { }
 
   @Get()
   findAll() {

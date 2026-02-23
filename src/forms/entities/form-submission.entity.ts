@@ -32,8 +32,6 @@ export class FormSubmission {
     @Column({ name: 'respuestas_json', type: 'nvarchar', length: 'MAX', nullable: true })
     respuestasJson: string | null;
 
-    @Column({ name: 'enviado_en', type: 'datetime2', precision: 3, nullable: true })
-    enviadoEn: Date | null;
 
     @Column({ type: 'bit', default: true })
     activo: boolean;

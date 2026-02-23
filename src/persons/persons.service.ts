@@ -141,8 +141,8 @@ export class PersonsService {
         personaId,
         cuestionarioSlug: slug,
         versionCuestionario: 1,
-        enviadoEn: null,
         respuestas: [],
+        fecha_modificacion: null,
       };
     const respuestas = envio.respuestasJson
       ? (JSON.parse(envio.respuestasJson) as SaveFormDto['respuestas'])
@@ -151,8 +151,8 @@ export class PersonsService {
       personaId,
       cuestionarioSlug: slug,
       versionCuestionario: envio.versionCuestionario,
-      enviadoEn: envio.enviadoEn?.toISOString() ?? null,
       respuestas,
+      fecha_modificacion: envio.fechaModificacion?.toISOString() ?? null,
     };
   }
 
@@ -179,14 +179,14 @@ export class PersonsService {
         cuestionarioSlug: slug,
         versionCuestionario: dto.version_cuestionario ?? 1,
         respuestasJson: JSON.stringify(respuestas),
-        enviadoEn: ahora,
         activo: true,
+        fechaModificacion: ahora,
       });
     } else {
       envio.versionCuestionario =
         dto.version_cuestionario ?? envio.versionCuestionario;
       envio.respuestasJson = JSON.stringify(respuestas);
-      envio.enviadoEn = ahora;
+      envio.fechaModificacion = ahora;
     }
     await this.formSubmissionRepo.save(envio);
 
@@ -207,10 +207,6 @@ export class PersonsService {
   }
 
   private toListDto(persona: Person): ListaPersonasDto {
-    const cuestionarios: Record<
-      string,
-      { enviadoEn: string | null; version: number }
-    > = {};
     return {
       id: persona.id,
       nombre: persona.nombre,
@@ -240,6 +236,6 @@ export interface RespuestaCuestionarioDto {
   personaId: number;
   cuestionarioSlug: string;
   versionCuestionario: number;
-  enviadoEn: string | null;
   respuestas: SaveFormDto['respuestas'];
+  fecha_modificacion: string | null;
 }

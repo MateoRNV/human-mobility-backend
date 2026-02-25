@@ -54,11 +54,11 @@ export class PersonsService {
         );
     } else if (dto.nombre) {
       const existing = await this.personRepo.findOne({
-        where: { nombre: dto.nombre, documento: IsNull(), activo: true },
+        where: { nombre: dto.nombre, apellido: dto.apellido, documento: IsNull(), activo: true },
       });
       if (existing)
         throw new ConflictException(
-          `Ya existe una persona con el nombre ${dto.nombre} sin documento`,
+          `Ya existe una persona con el nombre ${dto.nombre} y apellido ${dto.apellido} sin documento`,
         );
     }
 
@@ -77,6 +77,7 @@ export class PersonsService {
 
     const persona = this.personRepo.create({
       nombre: dto.nombre,
+      apellido: dto.apellido,
       documento: dto.documento ?? null,
       activo: true,
       numeroCaso,
@@ -99,7 +100,8 @@ export class PersonsService {
       where: { id, activo: true },
     });
     if (!persona) throw new NotFoundException(`Persona ${id} no encontrada`);
-    if (dto.nombre !== undefined) persona.nombre = dto.nombre;
+    if (dto.nombre !== undefined) persona.nombre = dto.nombre;    
+    if (dto.apellido !== undefined) persona.apellido = dto.apellido;
     if (dto.documento !== undefined) persona.documento = dto.documento;
 
     if (persona.documento) {
@@ -112,11 +114,11 @@ export class PersonsService {
         );
     } else {
       const existing = await this.personRepo.findOne({
-        where: { nombre: persona.nombre, documento: IsNull(), activo: true },
+        where: { nombre: persona.nombre, apellido: persona.apellido, documento: IsNull(), activo: true },
       });
       if (existing && existing.id !== persona.id)
         throw new ConflictException(
-          `Ya existe otra persona con el nombre ${persona.nombre} sin documento`,
+          `Ya existe otra persona con el nombre ${persona.nombre} y apellido ${persona.apellido} sin documento`,
         );
     }
 
@@ -210,6 +212,8 @@ export class PersonsService {
     return {
       id: persona.id,
       nombre: persona.nombre,
+      apellido: persona.apellido,
+      nombreCompleto: `${persona.nombre} ${persona.apellido}`,
       documento: persona.documento ?? '',
       numeroCaso: persona.numeroCaso ?? '',
       parentId: persona.parentId,
@@ -225,6 +229,8 @@ export class PersonsService {
 export interface ListaPersonasDto {
   id: number;
   nombre: string;
+  apellido: string;
+  nombreCompleto: string;
   documento: string;
   numeroCaso: string;
   parentId?: number | null;

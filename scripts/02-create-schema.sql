@@ -16,6 +16,7 @@ BEGIN
   CREATE TABLE [dbo].[personas] (
     [id]                    INT IDENTITY(1,1) NOT NULL,
     [nombre]                NVARCHAR(255)    NOT NULL,
+    [apellido]              NVARCHAR(255)    NOT NULL,
     [documento]             NVARCHAR(100)   NULL,
     [activo]                BIT             NOT NULL DEFAULT 1,
     [fecha_creacion]        DATETIME2(3)    NOT NULL DEFAULT (GETUTCDATE()),

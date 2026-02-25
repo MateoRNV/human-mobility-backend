@@ -41,12 +41,6 @@
             { "value": "primera_vez", "label": "Primera vez" },
             { "value": "recurrente", "label": "Recurrente" }
           ]
-        },
-        {
-          "id": "fld-4",
-          "order": 4,
-          "title": "Fecha de última atención",
-          "type": "date"
         }
       ]
     },

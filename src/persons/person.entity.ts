@@ -15,7 +15,7 @@ import { FormSubmission } from '../forms/entities/form-submission.entity';
   unique: true,
   where: 'documento IS NOT NULL',
 })
-@Index('UQ_PERSONA_NOMBRE_SIN_DOCUMENTO', ['nombre', 'documento'], {
+@Index('UQ_PERSONA_NOMBRE_SIN_DOCUMENTO', ['nombre', 'apellido', 'documento'], {
   unique: true,
   where: 'documento IS NULL',
 })
@@ -26,6 +26,9 @@ export class Person {
 
   @Column({ name: 'nombre', type: 'nvarchar', length: 255 })
   nombre: string;
+
+  @Column({ name: 'apellido', type: 'nvarchar', length: 255 })
+  apellido: string;
 
   @Column({ name: 'documento', type: 'nvarchar', length: 100, nullable: true })
   documento: string | null;

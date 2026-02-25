@@ -54,7 +54,12 @@ export class PersonsService {
         );
     } else if (dto.nombre) {
       const existing = await this.personRepo.findOne({
-        where: { nombre: dto.nombre, apellido: dto.apellido, documento: IsNull(), activo: true },
+        where: {
+          nombre: dto.nombre,
+          apellido: dto.apellido,
+          documento: IsNull(),
+          activo: true,
+        },
       });
       if (existing)
         throw new ConflictException(
@@ -100,9 +105,11 @@ export class PersonsService {
       where: { id, activo: true },
     });
     if (!persona) throw new NotFoundException(`Persona ${id} no encontrada`);
-    if (dto.nombre !== undefined) persona.nombre = dto.nombre;    
+    if (dto.nombre !== undefined) persona.nombre = dto.nombre;
     if (dto.apellido !== undefined) persona.apellido = dto.apellido;
     if (dto.documento !== undefined) persona.documento = dto.documento;
+    if (dto.contactos !== undefined)
+      persona.contactos = dto.contactos ? JSON.stringify(dto.contactos) : null;
 
     if (persona.documento) {
       const existing = await this.personRepo.findOne({
@@ -114,7 +121,12 @@ export class PersonsService {
         );
     } else {
       const existing = await this.personRepo.findOne({
-        where: { nombre: persona.nombre, apellido: persona.apellido, documento: IsNull(), activo: true },
+        where: {
+          nombre: persona.nombre,
+          apellido: persona.apellido,
+          documento: IsNull(),
+          activo: true,
+        },
       });
       if (existing && existing.id !== persona.id)
         throw new ConflictException(
@@ -217,6 +229,7 @@ export class PersonsService {
       documento: persona.documento ?? '',
       numeroCaso: persona.numeroCaso ?? '',
       parentId: persona.parentId,
+      contactos: persona.contactos ? JSON.parse(persona.contactos) : [],
     };
   }
 
@@ -234,6 +247,7 @@ export interface ListaPersonasDto {
   documento: string;
   numeroCaso: string;
   parentId?: number | null;
+  contactos?: any[];
 }
 
 export type DetallePersonaDto = ListaPersonasDto;

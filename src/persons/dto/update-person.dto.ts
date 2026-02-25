@@ -7,4 +7,6 @@ export class UpdatePersonDto {
   apellido?: string;
   @ApiProperty({ required: false, nullable: true })
   documento?: string | null;
+  @ApiProperty({ required: false, type: [Object], nullable: true })
+  contactos?: any[] | null;
 }

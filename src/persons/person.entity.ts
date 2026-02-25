@@ -33,6 +33,14 @@ export class Person {
   @Column({ name: 'documento', type: 'nvarchar', length: 100, nullable: true })
   documento: string | null;
 
+  @Column({
+    name: 'contactos',
+    type: 'nvarchar',
+    length: 'MAX',
+    nullable: true,
+  })
+  contactos: string | null;
+
   @Index()
   @Column({ name: 'numero_caso', type: 'nvarchar', length: 50, nullable: true })
   numeroCaso: string | null;

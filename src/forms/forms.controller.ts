@@ -7,6 +7,17 @@ import { FormsService } from './forms.service';
 export class FormsController {
   constructor(private readonly formsService: FormsService) {}
 
+  @Get('definitions')
+  async getAllDefinitions() {
+    const definitions = await this.formsService.getAllDefinitions();
+    return definitions.map((def) => ({
+      id: def.id,
+      slug: def.slug,
+      version: def.version,
+      nombre: def.nombre,
+    }));
+  }
+
   @Get('definition/:slug')
   async getDefinition(@Param('slug') slug: string) {
     const definition = await this.formsService.getDefinitionBySlug(slug);

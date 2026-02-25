@@ -15,4 +15,11 @@ export class FormsService {
       where: { slug, activo: true },
     });
   }
+
+  async getAllDefinitions(): Promise<FormDefinition[]> {
+    return this.defRepo.find({
+      where: { activo: true },
+      order: { nombre: 'ASC' },
+    });
+  }
 }

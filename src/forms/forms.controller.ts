@@ -1,6 +1,14 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Put,
+  Body,
+} from '@nestjs/common';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { FormsService } from './forms.service';
+import { UpdateDefinitionDto } from './dto/update-definition.dto';
 
 @ApiTags('formularios')
 @Controller('api/forms')
@@ -35,6 +43,24 @@ export class FormsController {
       nombre: definition.nombre,
       configuracion: definition.configuracionJson
         ? JSON.parse(definition.configuracionJson)
+        : null,
+    };
+  }
+
+  @Put('definition/:slug')
+  @ApiOperation({ summary: 'Actualizar definicion de formulario' })
+  async updateDefinition(
+    @Param('slug') slug: string,
+    @Body() dto: UpdateDefinitionDto,
+  ) {
+    const updated = await this.formsService.updateDefinition(slug, dto);
+    return {
+      id: updated.id,
+      slug: updated.slug,
+      version: updated.version,
+      nombre: updated.nombre,
+      configuracion: updated.configuracionJson
+        ? JSON.parse(updated.configuracionJson)
         : null,
     };
   }

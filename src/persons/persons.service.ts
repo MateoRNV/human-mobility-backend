@@ -139,6 +139,8 @@ export class PersonsService {
       numeroCaso: persona.numeroCaso ?? '',
       parentId: persona.parentId,
       contactos: persona.contactos ? JSON.parse(persona.contactos) : [],
+      cuestionarios:
+        persona.enviosCuestionario?.map((e) => e.cuestionarioSlug) || [],
     };
   }
 
@@ -157,6 +159,7 @@ export interface ListaPersonasDto {
   numeroCaso: string;
   parentId?: number | null;
   contactos?: any[];
+  cuestionarios?: string[];
 }
 
 export type DetallePersonaDto = ListaPersonasDto;

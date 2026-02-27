@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Person } from '../persons/person.entity';
 import { FormSubmission } from './entities/form-submission.entity';
+import { SubmissionHistory } from './entities/submission-history.entity';
 import { SaveFormDto } from './dto/save-form.dto';
 import {
   TRIAJE_DERIVATION_FIELD_ID,
@@ -24,6 +25,8 @@ export class SubmissionsService {
     private readonly personRepo: Repository<Person>,
     @InjectRepository(FormSubmission)
     private readonly formSubmissionRepo: Repository<FormSubmission>,
+    @InjectRepository(SubmissionHistory)
+    private readonly historyRepo: Repository<SubmissionHistory>,
   ) {}
 
   async getForm(
@@ -92,7 +95,30 @@ export class SubmissionsService {
     }
     await this.formSubmissionRepo.save(envio);
 
+    await this.historyRepo.save(
+      this.historyRepo.create({
+        personaId,
+        cuestionarioSlug: slug,
+        versionCuestionario:
+          dto.version_cuestionario ?? envio.versionCuestionario,
+        respuestasJson: JSON.stringify(respuestas),
+      }),
+    );
+
     return this.getForm(personaId, slug);
+  }
+
+  async getFormHistory(personaId: number, slug: string) {
+    const records = await this.historyRepo.find({
+      where: { personaId, cuestionarioSlug: slug },
+      order: { fechaCreacion: 'DESC' },
+    });
+    return records.map((r) => ({
+      id: r.id,
+      versionCuestionario: r.versionCuestionario,
+      respuestas: r.respuestasJson ? JSON.parse(r.respuestasJson) : [],
+      fecha: r.fechaCreacion.toISOString(),
+    }));
   }
 
   private deriveServicesFromTriageAnswers(

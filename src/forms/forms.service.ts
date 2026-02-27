@@ -14,14 +14,22 @@ export class FormsService {
   async getDefinitionBySlug(slug: string): Promise<FormDefinition | null> {
     return this.defRepo.findOne({
       where: { slug, activo: true },
+      order: { version: 'DESC' },
     });
   }
 
   async getAllDefinitions(): Promise<FormDefinition[]> {
-    return this.defRepo.find({
+    const all = await this.defRepo.find({
       where: { activo: true },
-      order: { nombre: 'ASC' },
+      order: { slug: 'ASC', version: 'DESC' },
     });
+    const latestBySlug = new Map<string, FormDefinition>();
+    for (const def of all) {
+      if (!latestBySlug.has(def.slug)) {
+        latestBySlug.set(def.slug, def);
+      }
+    }
+    return Array.from(latestBySlug.values());
   }
 
   async updateDefinition(
@@ -30,6 +38,7 @@ export class FormsService {
   ): Promise<FormDefinition> {
     const existing = await this.defRepo.findOne({
       where: { slug, activo: true },
+      order: { version: 'DESC' },
     });
 
     if (!existing) {
@@ -38,11 +47,30 @@ export class FormsService {
       );
     }
 
-    if (dto.nombre) existing.nombre = dto.nombre;
-    if (dto.version) existing.version = dto.version;
-    existing.configuracionJson = JSON.stringify(dto.configuracion);
-    existing.fechaModificacion = new Date();
+    const newVersion = this.defRepo.create({
+      slug: existing.slug,
+      version: existing.version + 1,
+      nombre: dto.nombre ?? existing.nombre,
+      configuracionJson: JSON.stringify(dto.configuracion),
+      activo: true,
+    });
 
-    return this.defRepo.save(existing);
+    return this.defRepo.save(newVersion);
+  }
+
+  async getDefinitionBySlugAndVersion(
+    slug: string,
+    version: number,
+  ): Promise<FormDefinition | null> {
+    return this.defRepo.findOne({
+      where: { slug, version, activo: true },
+    });
+  }
+
+  async getVersionsBySlug(slug: string): Promise<FormDefinition[]> {
+    return this.defRepo.find({
+      where: { slug, activo: true },
+      order: { version: 'DESC' },
+    });
   }
 }

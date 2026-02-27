@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { Person } from './persons/person.entity';
 import { FormSubmission } from './forms/entities/form-submission.entity';
 import { FormDefinition } from './forms/entities/form-definition.entity';
+import { SubmissionHistory } from './forms/entities/submission-history.entity';
 import { PersonsModule } from './persons/persons.module';
 import { FormsModule } from './forms/forms.module';
 
@@ -27,8 +28,8 @@ import { FormsModule } from './forms/forms.module';
         connectTimeout: 30000,
       },
       connectionTimeout: 30000,
-      entities: [Person, FormSubmission, FormDefinition],
-      synchronize: true,//process.env.NODE_ENV !== 'production', //solo para pruebas a true 
+      entities: [Person, FormSubmission, FormDefinition, SubmissionHistory],
+      synchronize: true, //process.env.NODE_ENV !== 'production', //solo para pruebas a true
       retryAttempts: 3,
     }),
     PersonsModule,

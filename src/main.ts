@@ -4,7 +4,15 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({ origin: true }); // Ajustar en producción al origen del front
+  app.enableCors({
+    origin: [
+      'https://human-mobility.vercel.app',
+      'http://localhost:5173',
+      'http://localhost:3000',
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Human Mobility API')

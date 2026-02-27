@@ -5,11 +5,13 @@ import { FormSubmission } from './entities/form-submission.entity';
 import { FormsService } from './forms.service';
 import { FormsSeederService } from './forms-seeder.service';
 import { FormsController } from './forms.controller';
+import { SubmissionsService } from './submissions.service';
+import { Person } from '../persons/person.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([FormDefinition, FormSubmission])],
-    controllers: [FormsController],
-    providers: [FormsService, FormsSeederService],
-    exports: [TypeOrmModule, FormsService],
+  imports: [TypeOrmModule.forFeature([FormDefinition, FormSubmission, Person])],
+  controllers: [FormsController],
+  providers: [FormsService, FormsSeederService, SubmissionsService],
+  exports: [TypeOrmModule, FormsService, SubmissionsService],
 })
-export class FormsModule { }
+export class FormsModule {}

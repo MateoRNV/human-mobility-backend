@@ -5,15 +5,21 @@ import {
   Param,
   Put,
   Body,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { FormsService } from './forms.service';
+import { SubmissionsService } from './submissions.service';
 import { UpdateDefinitionDto } from './dto/update-definition.dto';
+import { SaveFormDto } from './dto/save-form.dto';
 
 @ApiTags('formularios')
 @Controller('api/forms')
 export class FormsController {
-  constructor(private readonly formsService: FormsService) {}
+  constructor(
+    private readonly formsService: FormsService,
+    private readonly submissionsService: SubmissionsService,
+  ) {}
 
   @Get('definitions')
   async getAllDefinitions() {
@@ -63,5 +69,22 @@ export class FormsController {
         ? JSON.parse(updated.configuracionJson)
         : null,
     };
+  }
+
+  @Get('submissions/:personaId/:slug')
+  getForm(
+    @Param('personaId', ParseIntPipe) personaId: number,
+    @Param('slug') slug: string,
+  ) {
+    return this.submissionsService.getForm(personaId, slug);
+  }
+
+  @Put('submissions/:personaId/:slug')
+  saveForm(
+    @Param('personaId', ParseIntPipe) personaId: number,
+    @Param('slug') slug: string,
+    @Body() dto: SaveFormDto,
+  ) {
+    return this.submissionsService.saveForm(personaId, slug, dto);
   }
 }

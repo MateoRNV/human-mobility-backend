@@ -36,26 +36,33 @@ export class FormsService {
     slug: string,
     dto: UpdateDefinitionDto,
   ): Promise<FormDefinition> {
-    const existing = await this.defRepo.findOne({
-      where: { slug, activo: true },
-      order: { version: 'DESC' },
+    return this.defRepo.manager.transaction(async (manager) => {
+      const existing = await manager.findOne(FormDefinition, {
+        where: { slug, activo: true },
+        order: { version: 'DESC' },
+      });
+
+      if (!existing) {
+        throw new NotFoundException(
+          `Definicion con slug "${slug}" no encontrada`,
+        );
+      }
+
+      const nextVersion = existing.version + 1;
+
+      const newDef = manager.create(FormDefinition, {
+        slug: existing.slug,
+        version: nextVersion,
+        nombre: dto.nombre ?? existing.nombre ?? slug,
+        configuracionJson: JSON.stringify({
+          ...dto.configuracion,
+          version: nextVersion,
+        }),
+        activo: true,
+      });
+
+      return manager.save(FormDefinition, newDef);
     });
-
-    if (!existing) {
-      throw new NotFoundException(
-        `Definicion con slug "${slug}" no encontrada`,
-      );
-    }
-
-    const newVersion = this.defRepo.create({
-      slug: existing.slug,
-      version: existing.version + 1,
-      nombre: dto.nombre ?? existing.nombre,
-      configuracionJson: JSON.stringify(dto.configuracion),
-      activo: true,
-    });
-
-    return this.defRepo.save(newVersion);
   }
 
   async getDefinitionBySlugAndVersion(

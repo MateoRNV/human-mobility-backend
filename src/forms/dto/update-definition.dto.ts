@@ -21,5 +21,5 @@ export class UpdateDefinitionDto {
   @ApiProperty({ description: 'Esquema JSON completo del formulario' })
   @IsObject()
   @IsNotEmpty()
-  configuracion: Record<string, any>;
+  configuracion: Record<string, unknown>;
 }

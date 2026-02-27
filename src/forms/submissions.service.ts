@@ -1,14 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Person } from '../persons/person.entity';
 import { FormSubmission } from './entities/form-submission.entity';
 import { SubmissionHistory } from './entities/submission-history.entity';
 import { SaveFormDto } from './dto/save-form.dto';
-import {
-  TRIAJE_DERIVATION_FIELD_ID,
-  DERIVATION_TO_FORM_SLUG,
-} from '../persons/constants';
 
 export interface RespuestaCuestionarioDto {
   personaId: number;
@@ -27,6 +23,8 @@ export class SubmissionsService {
     private readonly formSubmissionRepo: Repository<FormSubmission>,
     @InjectRepository(SubmissionHistory)
     private readonly historyRepo: Repository<SubmissionHistory>,
+    @InjectDataSource()
+    private readonly dataSource: DataSource,
   ) {}
 
   async getForm(
@@ -72,38 +70,41 @@ export class SubmissionsService {
     if (!persona)
       throw new NotFoundException(`Persona ${personaId} no encontrada`);
 
-    let envio = await this.formSubmissionRepo.findOne({
-      where: { personaId, cuestionarioSlug: slug, activo: true },
-    });
     const ahora = new Date();
     const respuestas = dto.respuestas ?? [];
 
-    if (!envio) {
-      envio = this.formSubmissionRepo.create({
-        personaId,
-        cuestionarioSlug: slug,
-        versionCuestionario: dto.version_cuestionario ?? 1,
-        respuestasJson: JSON.stringify(respuestas),
-        activo: true,
-        fechaModificacion: ahora,
+    await this.dataSource.transaction(async (manager) => {
+      let envio = await manager.findOne(FormSubmission, {
+        where: { personaId, cuestionarioSlug: slug, activo: true },
       });
-    } else {
-      envio.versionCuestionario =
-        dto.version_cuestionario ?? envio.versionCuestionario;
-      envio.respuestasJson = JSON.stringify(respuestas);
-      envio.fechaModificacion = ahora;
-    }
-    await this.formSubmissionRepo.save(envio);
 
-    await this.historyRepo.save(
-      this.historyRepo.create({
-        personaId,
-        cuestionarioSlug: slug,
-        versionCuestionario:
-          dto.version_cuestionario ?? envio.versionCuestionario,
-        respuestasJson: JSON.stringify(respuestas),
-      }),
-    );
+      if (!envio) {
+        envio = manager.create(FormSubmission, {
+          personaId,
+          cuestionarioSlug: slug,
+          versionCuestionario: dto.version_cuestionario ?? 1,
+          respuestasJson: JSON.stringify(respuestas),
+          activo: true,
+          fechaModificacion: ahora,
+        });
+      } else {
+        envio.versionCuestionario =
+          dto.version_cuestionario ?? envio.versionCuestionario;
+        envio.respuestasJson = JSON.stringify(respuestas);
+        envio.fechaModificacion = ahora;
+      }
+      await manager.save(FormSubmission, envio);
+
+      await manager.save(
+        manager.create(SubmissionHistory, {
+          personaId,
+          cuestionarioSlug: slug,
+          versionCuestionario:
+            dto.version_cuestionario ?? envio.versionCuestionario,
+          respuestasJson: JSON.stringify(respuestas),
+        }),
+      );
+    });
 
     return this.getForm(personaId, slug);
   }
@@ -119,18 +120,5 @@ export class SubmissionsService {
       respuestas: r.respuestasJson ? JSON.parse(r.respuestasJson) : [],
       fecha: r.fechaCreacion.toISOString(),
     }));
-  }
-
-  private deriveServicesFromTriageAnswers(
-    respuestas: SaveFormDto['respuestas'],
-  ): string[] {
-    const entrada = respuestas.find(
-      (r) => r.campoId === TRIAJE_DERIVATION_FIELD_ID,
-    );
-    if (!entrada || !Array.isArray(entrada.valor)) return [];
-    const valores = entrada.valor as string[];
-    return valores
-      .map((v) => DERIVATION_TO_FORM_SLUG[v])
-      .filter((v) => v != null);
   }
 }

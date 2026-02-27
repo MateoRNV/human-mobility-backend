@@ -51,6 +51,7 @@ export class FormsSeederService implements OnApplicationBootstrap {
 
     const existing = await this.defRepo.findOne({
       where: { slug: json.slug },
+      order: { version: 'DESC' },
     });
 
     if (!existing) {

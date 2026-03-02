@@ -54,6 +54,6 @@ El servidor queda en `http://localhost:3001` (o el `PORT` que definas en `.env`)
 - `POST /api/persons` — Crear persona (`body: { name, document? }`).
 - `PATCH /api/persons/:id` — Actualizar persona.
 - `GET /api/persons/:personId/forms/:slug` — Obtener respuestas de un cuestionario (ej. `slug=triaje`).
-- `PUT /api/persons/:personId/forms/:slug` — Guardar/actualizar respuestas. Si `slug=triaje`, se actualiza `derivedServices` según el campo de derivación (fld-60).
+- `PUT /api/persons/:personId/forms/:slug` — Guardar/actualizar respuestas. Si `slug=triaje`.
 
 Slugs de formularios: `triaje`, `social`, `legal`, `psicologico`, `medios-vida`.

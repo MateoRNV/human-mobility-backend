@@ -9,6 +9,7 @@ import { FormDefinition } from './forms/entities/form-definition.entity';
 import { SubmissionHistory } from './forms/entities/submission-history.entity';
 import { PersonsModule } from './persons/persons.module';
 import { FormsModule } from './forms/forms.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { FormsModule } from './forms/forms.module';
     }),
     PersonsModule,
     FormsModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

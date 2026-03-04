@@ -7,12 +7,14 @@ import {
   Body,
   ParseIntPipe,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { PersonsService } from './persons.service';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @ApiTags('personas')
+@ApiBearerAuth()
 @Controller('api/personas')
 export class PersonsController {
   constructor(private readonly personsService: PersonsService) {}
@@ -28,12 +30,19 @@ export class PersonsController {
   }
 
   @Post()
-  create(@Body() dto: CreatePersonDto) {
-    return this.personsService.create(dto);
+  create(
+    @Body() dto: CreatePersonDto,
+    @CurrentUser() user: { email: string },
+  ) {
+    return this.personsService.create(dto, user.email);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdatePersonDto) {
-    return this.personsService.update(id, dto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdatePersonDto,
+    @CurrentUser() user: { email: string },
+  ) {
+    return this.personsService.update(id, dto, user.email);
   }
 }

@@ -63,6 +63,7 @@ export class SubmissionsService {
     personaId: number,
     slug: string,
     dto: SaveFormDto,
+    usuarioEmail: string,
   ): Promise<RespuestaCuestionarioDto> {
     const persona = await this.personRepo.findOne({
       where: { id: personaId, activo: true },
@@ -86,12 +87,15 @@ export class SubmissionsService {
           respuestasJson: JSON.stringify(respuestas),
           activo: true,
           fechaModificacion: ahora,
+          usuarioCreacion: usuarioEmail,
+          usuarioModificacion: usuarioEmail,
         });
       } else {
         envio.versionCuestionario =
           dto.version_cuestionario ?? envio.versionCuestionario;
         envio.respuestasJson = JSON.stringify(respuestas);
         envio.fechaModificacion = ahora;
+        envio.usuarioModificacion = usuarioEmail;
       }
       await manager.save(FormSubmission, envio);
 

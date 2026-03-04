@@ -7,11 +7,14 @@ import {
   Body,
   ParseIntPipe,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { FormsService } from './forms.service';
 import { SubmissionsService } from './submissions.service';
 import { UpdateDefinitionDto } from './dto/update-definition.dto';
 import { SaveFormDto } from './dto/save-form.dto';
+import { Roles } from '../common/decorators/roles.decorator';
+import { ProfesionalRol } from '../auth/profesional.entity';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @ApiTags('formularios')
 @Controller('api/forms')
@@ -54,7 +57,9 @@ export class FormsController {
   }
 
   @Put('definition/:slug')
-  @ApiOperation({ summary: 'Actualizar definicion de formulario' })
+  @Roles(ProfesionalRol.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Actualizar definicion de formulario (solo admin)' })
   async updateDefinition(
     @Param('slug') slug: string,
     @Body() dto: UpdateDefinitionDto,
@@ -139,7 +144,8 @@ export class FormsController {
     @Param('personaId', ParseIntPipe) personaId: number,
     @Param('slug') slug: string,
     @Body() dto: SaveFormDto,
+    @CurrentUser() user: { email: string },
   ) {
-    return this.submissionsService.saveForm(personaId, slug, dto);
+    return this.submissionsService.saveForm(personaId, slug, dto, user.email);
   }
 }

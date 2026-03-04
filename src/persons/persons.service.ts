@@ -34,7 +34,7 @@ export class PersonsService {
     return this.toDetailDto(persona);
   }
 
-  async create(dto: CreatePersonDto): Promise<DetallePersonaDto> {
+  async create(dto: CreatePersonDto, usuarioEmail: string): Promise<DetallePersonaDto> {
     if (dto.documento) {
       const existing = await this.personRepo.findOne({
         where: { documento: dto.documento, activo: true },
@@ -78,6 +78,8 @@ export class PersonsService {
       activo: true,
       numeroCaso,
       parentId,
+      usuarioCreacion: usuarioEmail,
+      usuarioModificacion: usuarioEmail,
     });
 
     const guardada = await this.personRepo.save(persona);
@@ -91,7 +93,7 @@ export class PersonsService {
     return this.findOne(guardada.id);
   }
 
-  async update(id: number, dto: UpdatePersonDto): Promise<DetallePersonaDto> {
+  async update(id: number, dto: UpdatePersonDto, usuarioEmail: string): Promise<DetallePersonaDto> {
     const persona = await this.personRepo.findOne({
       where: { id, activo: true },
     });
@@ -101,6 +103,7 @@ export class PersonsService {
     if (dto.documento !== undefined) persona.documento = dto.documento;
     if (dto.contactos !== undefined)
       persona.contactos = dto.contactos ? JSON.stringify(dto.contactos) : null;
+    persona.usuarioModificacion = usuarioEmail;
 
     if (persona.documento) {
       const existing = await this.personRepo.findOne({

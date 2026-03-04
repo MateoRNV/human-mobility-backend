@@ -1,59 +1,108 @@
-# HumanMobility Backend
+# HumanMobility — Backend
 
-API NestJS con Microsoft SQL Server para el registro de personas y cuestionarios (triaje, trabajo social, legal, psicológico).
+API REST construida con **NestJS 11 + TypeORM + Microsoft SQL Server** para la gestión de personas en situación de movilidad humana (MDMQ).
 
-## Requisitos
+## Arquitectura
 
-- Node.js 18+
-- Microsoft SQL Server (local o remoto)
+```mermaid
+graph TB
+    Client[Navegador] --> Frontend[React SPA · Puerto 8080]
+    Frontend -->|JWT Bearer| Backend[NestJS API · Puerto 3001]
+    Backend --> DB[(SQL Server · Puerto 1433)]
+    Backend --> Auth[Módulo Auth\nJWT + bcrypt]
+    Backend --> Persons[Módulo Personas]
+    Backend --> Forms[Módulo Formularios]
+```
 
-## Base de datos con Docker
+| Capa | Tecnología |
+|------|-----------|
+| Framework | NestJS 11 |
+| ORM | TypeORM |
+| Base de datos | Microsoft SQL Server 2022 |
+| Autenticación | JWT + Passport + bcrypt |
+| Validación | class-validator + ValidationPipe |
+| Documentación API | Swagger / OpenAPI |
+| Seguridad HTTP | Helmet + CORS + Throttler |
 
-Si usas el SQL Server del `docker-compose.yml`:
+## Requisitos previos
 
-1. **Levantar el contenedor**
-   ```bash
-   docker-compose up -d
-   ```
-2. **Esperar ~20-30 segundos** hasta que SQL Server esté listo.
-3. **Crear la base de datos** (solo la primera vez). Desde tu máquina, con **Azure Data Studio**, **SSMS** o **sqlcmd**:
-   - Servidor: `localhost,1433`
-   - Usuario: `sa`
-   - Contraseña: la de `MSSQL_SA_PASSWORD` en `docker-compose.yml` (ej: `Movilidad_2026!`)
-   - Ejecutar el script `scripts/01-create-database.sql`.
-4. Opcional: ejecutar `scripts/02-create-schema.sql` si no usas `synchronize` de TypeORM.
-5. El `.env` del backend debe usar los mismos datos: `MSSQL_HOST=localhost`, `MSSQL_PORT=1433`, `MSSQL_USER=sa`, `MSSQL_PASSWORD=...`, `MSSQL_DATABASE=HumanMobility`, y para Docker local: `MSSQL_OPTIONS_ENCRYPT=false`, `MSSQL_OPTIONS_TRUST_SERVER_CERTIFICATE=true`.
+- Node.js 20+
+- Microsoft SQL Server 2022 (o usar Docker, ver abajo)
 
-Luego arranca el backend con `npm run start:dev`.
-
-## Configuración
-
-1. Copia el archivo de ejemplo de variables de entorno:
-   ```bash
-   cp .env.example .env
-   ```
-2. Edita `.env` con los datos de tu SQL Server:
-   - `MSSQL_HOST`, `MSSQL_PORT`, `MSSQL_USER`, `MSSQL_PASSWORD`, `MSSQL_DATABASE`
-   - En desarrollo local suele usarse `MSSQL_OPTIONS_TRUST_SERVER_CERTIFICATE=true`
-
-3. Crea la base de datos en SQL Server (por ejemplo `HumanMobility`). Con `synchronize: true` (por defecto en desarrollo), TypeORM creará las tablas al arrancar.
-
-## Instalación y ejecución
+## Instalación
 
 ```bash
 npm install
-npm run start:dev
+cp .env.example .env
+# Editar .env con los datos de conexión
 ```
 
-El servidor queda en `http://localhost:3001` (o el `PORT` que definas en `.env`).
+## Variables de entorno
 
-## API
+| Variable | Descripción | Ejemplo |
+|----------|-------------|---------|
+| `PORT` | Puerto del servidor | `3001` |
+| `MSSQL_HOST` | Host del SQL Server | `localhost` |
+| `MSSQL_PORT` | Puerto | `1433` |
+| `MSSQL_USER` | Usuario | `sa` |
+| `MSSQL_PASSWORD` | Contraseña | `Movilidad_2026!` |
+| `MSSQL_DATABASE` | Nombre de la BD | `HumanMobility` |
+| `MSSQL_OPTIONS_ENCRYPT` | Cifrado TLS | `false` (local) |
+| `MSSQL_OPTIONS_TRUST_SERVER_CERTIFICATE` | Certificado auto-firmado | `true` (local) |
+| `JWT_SECRET` | Clave secreta JWT | `cambiar-en-produccion` |
+| `CORS_ORIGINS` | Origins permitidos (separados por coma) | `http://localhost:5173` |
 
-- `GET /api/persons` — Lista de personas (con `derivedServices` y resumen de `forms`).
-- `GET /api/persons/:id` — Detalle de una persona.
-- `POST /api/persons` — Crear persona (`body: { name, document? }`).
-- `PATCH /api/persons/:id` — Actualizar persona.
-- `GET /api/persons/:personId/forms/:slug` — Obtener respuestas de un cuestionario (ej. `slug=triaje`).
-- `PUT /api/persons/:personId/forms/:slug` — Guardar/actualizar respuestas. Si `slug=triaje`.
+## Levantar SQL Server con Docker
 
-Slugs de formularios: `triaje`, `social`, `legal`, `psicologico`, `medios-vida`.
+```bash
+# Solo la base de datos
+docker run -e ACCEPT_EULA=Y -e MSSQL_SA_PASSWORD=Movilidad_2026! \
+  -p 1433:1433 --name mssql \
+  mcr.microsoft.com/mssql/server:2022-latest
+
+# O usar el docker-compose.yml de la raíz del proyecto (BD + backend + frontend)
+docker-compose up --build
+```
+
+Al iniciar, TypeORM crea las tablas automáticamente (`synchronize: true`). El seed crea el primer profesional admin: `admin@mdmq.gob.ec` / `admin123`.
+
+## Comandos
+
+```bash
+npm run start:dev   # Servidor en modo desarrollo (hot-reload)
+npm run build       # Compilar a dist/
+npm run start:prod  # Ejecutar el build de producción
+npm run test        # Tests unitarios
+npm run test:cov    # Tests con cobertura
+npm run lint        # ESLint
+```
+
+## Endpoints principales
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|------|-------------|
+| `POST` | `/api/auth/login` | Público | Obtener JWT |
+| `POST` | `/api/auth/register` | ADMIN | Registrar profesional |
+| `GET` | `/api/auth/profile` | JWT | Datos del profesional activo |
+| `GET` | `/api/personas` | JWT | Listar personas |
+| `POST` | `/api/personas` | JWT | Crear persona |
+| `GET` | `/api/personas/:id` | JWT | Detalle de persona |
+| `PATCH` | `/api/personas/:id` | JWT | Actualizar persona |
+| `GET` | `/api/forms/definitions` | JWT | Listar formularios disponibles |
+| `GET` | `/api/forms/definition/:slug` | JWT | Schema del formulario |
+| `PUT` | `/api/forms/definition/:slug` | JWT | Actualizar schema (crea nueva versión) |
+| `GET` | `/api/forms/submissions/:personaId/:slug` | JWT | Última respuesta guardada |
+| `PUT` | `/api/forms/submissions/:personaId/:slug` | JWT | Guardar respuesta |
+| `GET` | `/api/forms/submissions/:personaId/:slug/history` | JWT | Historial de respuestas |
+
+Documentación interactiva: `http://localhost:3001/api/docs`
+
+## Roles de profesionales
+
+| Rol | Descripción |
+|-----|-------------|
+| `admin` | Acceso total, puede registrar profesionales |
+| `trabajador_social` | Gestión de personas y formularios sociales |
+| `psicologo` | Formularios psicológicos |
+| `abogado` | Formularios legales |
+| `consulta` | Solo lectura |
